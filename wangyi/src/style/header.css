@@ -5,23 +5,25 @@
          url('//at.alicdn.com/t/font_3255700_h4ptjdkogym.ttf?t=1647608323184') format('truetype');
   }
   
-  .iconfont {
-    font-family: "iconfont" !important;
-    font-size: 16px;
-    font-style: normal;
+  .iconfont-header {
+    font-family: "iconfont" ;
+    font-size: 20px;
+    font-weight: lighter;
+    color: aliceblue;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
   
-  .icon-zhuti:before {
+  .icon-theme:before {
+    font-size: 20px;
     content: "\e603";
   }
   
-  .icon-sousuo:before {
+  .icon-search:before {
     content: "\e62f";
   }
   
-  .icon-shezhi:before {
+  .icon-setting:before {
     content: "\e64b";
   }
   
@@ -29,31 +31,47 @@
     content: "\e710";
   }
   
-  .icon-guanbi:before {
+  .icon-close:before {
     content: "\eca0";
   }
   
-  .icon-zuidahua:before {
+  .icon-maximize:before {
     content: "\e651";
   }
   
-  .icon-xinfeng:before {
+  .icon-letter:before {
     content: "\e610";
   }
   
-  .icon-jiantou-xiangzuo:before {
+  .icon-arrow-left:before {
+    color: #808080;
+    font-size: 20px;
     content: "\e672";
   }
   
-  .icon-jiantou-xiangyou:before {
+  .icon-arrow-right:before {
+    color: #808080;
+    font-size: 20px;
+    
     content: "\e673";
   }
   
   .icon-mic-on:before {
+    
     content: "\e96b";
   }
   
-  .icon-zuixiaohua:before {
+  .icon-minimize:before {
     content: "\e644";
   }
   
+  .icon-arrow-left-found:before {
+    font-size: 20px;
+    content: "\e672";
+  }
+  
+  .icon-arrow-right-found:before {
+    font-size: 20px;
+    
+    content: "\e673";
+  }
