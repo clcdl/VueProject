@@ -78,7 +78,7 @@ const routes: Array<RouteRecordRaw> = [
           belong:"mainMenuListTop",
           text:"播客"
         },
-        component:() => import('../components/Found.vue')
+        component:() => import('../components/Podcast.vue')
       },
       {
         path:"video",
@@ -87,7 +87,28 @@ const routes: Array<RouteRecordRaw> = [
           belong:"mainMenuListTop",
           text:"视频"
         },
-        component:() => import('../components/Found.vue')
+        component:() => import('../components/Video.vue'),
+        redirect:"/video/video",
+        children:[
+          {
+            path:"/video/video",
+            name:"/video/video",
+            meta:{
+              belong:"videoNavigation",
+              text:"视频"
+            },
+            component:() => import('../components/VideoVideo.vue')
+          },
+          {
+            path:"/video/mv",
+            name:"/video/mv",
+            meta:{
+              belong:"videoNavigation",
+              text:"MV"
+            },
+            component:() => import('../components/Recommendation.vue')
+          },
+        ]
       },
       {
         path:"follow",

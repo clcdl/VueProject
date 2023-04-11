@@ -43,9 +43,10 @@
                 <ul style="margin-top: 12px;">
                     <li class="main-menu-item" v-for="item, index in menuList1" :class="[{ 'selected': selected(index) },
                     (hoverIndex == index) ? 'is-hover' : '',
-                    itemStyles[index]]" key="item.path" @click="clickMainMenuItem(index)"
-                        @mouseenter="enterMainMenuItem(index)" @mouseleave="leaveMainMenuItem(index)">
-
+                    itemStyles[index]]" :key="item.path" @click="clickMainMenuItem(index),menuChange(item)"
+                        @mouseenter="enterMainMenuItem(index)"
+                        @mouseleave="leaveMainMenuItem(index)"
+                        >
                         {{ item.meta.text }}
                     </li>
                 </ul>
@@ -54,7 +55,7 @@
                     <li>
                     <li class="main-menu-item iconfont" v-for="item, index in menuList2" :class="[{ 'selected': selected(index + menuList1.length) },
                     (hoverIndex == index + menuList1.length) ? 'is-hover' : '',
-                    itemStyles[index + menuList1.length]]" key="item.path"
+                    itemStyles[index + menuList1.length]]" :key="item.path"
                         @click="clickMainMenuItem(index + menuList1.length)"
                         @mouseenter="enterMainMenuItem(index + menuList1.length)"
                         @mouseleave="leaveMainMenuItem(index + menuList1.length)">
@@ -74,14 +75,13 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter, useRoute, RouteRecordNormalized } from 'vue-router';
+import { noLogging } from '../request/api';
 const router = useRouter()
-
-
+const route = useRoute()
+noLogging()
 const menuList1 = router.getRoutes().filter((item) => item.meta.belong == "mainMenuListTop")
 const menuList2 = router.getRoutes().filter((item) => item.meta.belong == "mainMenuListBottom")
-/* console.log(menuList1)
-console.log(menuList2) */
 //header
 const logoClick = () => {
     selectedIndex.value = 0
@@ -97,6 +97,9 @@ const enterMainMenu = () => {
 const leaveMainMenu = () => {
     isScroll = false
     scrollStyle.value = isScroll ? 'scroll' : 'hidden'
+}
+const menuChange = (item:RouteRecordNormalized)=>{
+    router.push(item)
 }
 //main-menu-item
 let itemStyles: string[] = [

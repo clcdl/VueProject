@@ -26,17 +26,6 @@ export interface BannerType {
 	scm: string;
 	bannerBizType: string;
 }
-/* export class Banner implements BannerType{
-	imageUrl= '';
-	targetId= 0 ;
-	targetType = 0;
-	titleColor = '';
-	typeTitle = '';
-	exclusive = false;
-	encodeId = '';
-	scm = '';
-	bannerBizType = '';
-} */
 
 export class BannerList {
 	bannerList: BannerType[] = [];
