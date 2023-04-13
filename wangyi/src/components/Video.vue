@@ -25,6 +25,9 @@ const videoNavigationList = useRouter().getRoutes().filter((item)=>item.meta.bel
 let activeIndex = ref(0)
 let hoverIndex = ref(-1)
 const navClick = (index: number) => {
+    router.push({
+        path:videoNavigationList[index].path
+    })
     activeIndex.value = index
 }
 const navEnter = (index: number) => {

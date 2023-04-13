@@ -52,3 +52,31 @@ export function getSelectVideoList(id:number){
         params:{id}
     })
 }
+
+export function getLatestMVList(area?:string,limit?:number){
+    return service({
+        url:"/mv/first",
+        method:"get",
+        params:{
+            area,
+            limit
+        }
+    })
+}
+
+export function getWangyiMVList(){
+    return service({
+        url:"/mv/exclusive/rcmd?limit=6",
+        method:"get"
+    })
+}
+export function getTopMVList(area?:string,limit?:number){
+    return service({
+        url:"/top/mv",
+        method:"get",
+        params:{
+            area,
+            limit
+        }
+    })
+}

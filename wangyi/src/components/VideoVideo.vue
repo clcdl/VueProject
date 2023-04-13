@@ -39,8 +39,8 @@
                     <div class="creator"><span>by&nbsp;</span><span>{{ item.data.creator.nickname }}</span></div>
                     <span class="play-time-box">
                         <span class="play-time">{{ playCountFormat(item.data.playTime) }}</span>
+                        <div class="play"></div>
                     </span>
-                    <div class="play"></div>
                 </li>
             </ul>
         </div>
@@ -408,8 +408,8 @@ li {
 
 .play {
     position: absolute;
-    top: 7.5px;
-    right: 31px;
+    top: 29%;
+    right: 70%;
     width: 0px;
     height: 0px;
     border-style: solid;

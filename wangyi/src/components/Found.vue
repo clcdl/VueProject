@@ -29,9 +29,10 @@
                     <i class="play-icon"></i>
                     <img :src="item.picUrl" alt="">
                     <p>{{ item.name }}</p>
-                    <span>
-                        {{ playCountFormat(item.playCount) }}
-                    </span>
+                    <div class="play-time-box">
+                        <span class="play-time">{{ playCountFormat(item.playCount) }}</span>
+                        <div class="play"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -225,7 +226,7 @@ li {
 .active::before {
     content: '';
     width: 80%;
-    height: 2.2px;
+    height: 2.5px;
     position: absolute;
     background-color: #e20000;
     border-radius: 5px;
@@ -391,23 +392,26 @@ li {
     margin-top: 2px;
 }
 
-.song-list-item span {
+.play-time-box {
     position: absolute;
-    font-size: 10px;
-    color: aliceblue;
+    top: 0;
     right: 5px;
 }
 
-.song-list-item::after {
-    content: '';
+.play-time {
+    position: relative;
+    font-size: 10px;
+    color: aliceblue;
+}
+.play {
     position: absolute;
-    top: 2px;
-    right: 38px;
+    top: 29%;
+    right: 75%;
     width: 0px;
     height: 0px;
     border-style: solid;
     border-width: 6px 10px 6px 10px;
-    border-color: transparent transparent transparent aliceblue;
+    border-color: transparent transparent transparent #fff;
     z-index: 99;
     scale: 0.8;
 }

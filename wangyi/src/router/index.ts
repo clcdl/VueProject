@@ -106,7 +106,7 @@ const routes: Array<RouteRecordRaw> = [
               belong:"videoNavigation",
               text:"MV"
             },
-            component:() => import('../components/Recommendation.vue')
+            component:() => import('../components/VideoMV.vue')
           },
         ]
       },
