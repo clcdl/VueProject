@@ -9,12 +9,10 @@
                 </div>
                 <div class="latest-mv-navigation-list">
                     <ul>
-                        <li v-for="item,index in tagList" :key="item.tagSign"
-                        @mouseenter="EnterTagList(index)"
-                        @mouseleave="LeaveTagList()"
-                        @click="ClickTagList(index)"
-                        :class="[{tagHover:isTagListHover(index)},{tagActive:isTagListActive(index)}]"
-                        >{{ item.tagSign }}</li>
+                        <li v-for="item, index in tagList" :key="item.tagSign" @mouseenter="enterTagList(index)"
+                            @mouseleave="leaveTagList()" @click="clickTagList(index)"
+                            :class="[{ tagHover: isTagListHover(index) }, { tagActive: isTagListActive(index) }]">{{ item.tagSign
+                            }}</li>
                     </ul>
                 </div>
             </div>
@@ -62,7 +60,7 @@
                 <li class="wangyi-mv-item" v-for="item in wangYiMVData.list" :key="item.id">
                     <img :src="item.cover" alt="">
                     <p class="name">{{ item.name }}</p>
-                    
+
                     <div class="play-time-box">
                         <span class="play-time">{{ playCountFormat(item.playCount) }}</span>
                         <div class="play"></div>
@@ -79,19 +77,17 @@
                 </div>
                 <div class="mv-rank-navigation-list">
                     <ul>
-                        <li v-for="item,index in tagList" :key="item.tagSign"
-                        @mouseenter="EnterTagList(index)"
-                        @mouseleave="LeaveTagList()"
-                        @click="ClickTagList(index),ClickRankTagList(index)"
-                        :class="[{tagHover:isTagListHover(index)},{tagActive:isTagListActive(index)}]"
-                        >{{ item.tagSign }}</li>
+                        <li v-for="item, index in tagList" :key="item.tagSign" @mouseenter="enterTagList(index)"
+                            @mouseleave="leaveTagList()" @click="clickTagList(index), clickRankTagList(index)"
+                            :class="[{ tagHover: isTagListHover(index) }, { tagActive: isTagListActive(index) }]">{{ item.tagSign
+                            }}</li>
                     </ul>
                 </div>
             </div>
             <ul class="mv-rank-item-list">
-                <li class="mv-rank-item" v-for="item,index in MVRankData.list" :key="item.id">
+                <li class="mv-rank-item" v-for="item, index in MVRankData.list" :key="item.id">
                     <div class="rank">
-                        {{ RankFormat(index+1 )}}
+                        {{ RankFormat(index + 1) }}
                     </div>
                     <img :src="item.cover" alt="">
                     <div class="mv-rank-detail">
@@ -106,9 +102,9 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue';
-import { getLatestMVList,getWangyiMVList,getTopMVList } from '../request/api'
-import { LatestMVList,wangyiMVList,tagType } from '../type/MV'
-import {TopMVList} from '../type/TopMV'
+import { getLatestMVList, getWangyiMVList, getTopMVList } from '../request/api'
+import { LatestMVList, wangyiMVList, tagType } from '../type/MV'
+import { TopMVList } from '../type/TopMV'
 onMounted(() => {
     getLatestMVData()
     getWangyiMVData()
@@ -118,43 +114,46 @@ onMounted(() => {
 //latest-mv-data
 const latestMVData = reactive(new LatestMVList())
 const getLatestMVData = () => {
-    getLatestMVList(undefined,6).then(res => {
+    getLatestMVList(undefined, 6).then(res => {
         latestMVData.list = res.data.data
     })
 }
 //tagList
-const tagList:tagType[] = [
-    {tagSign : '内地'},
-    {tagSign : '港台'},
-    {tagSign : '欧美'},
-    {tagSign : '日本'},
-    {tagSign : '韩国'},
+const tagList: tagType[] = [
+    { tagSign: '内地' },
+    { tagSign: '港台' },
+    { tagSign: '欧美' },
+    { tagSign: '日本' },
+    { tagSign: '韩国' },
 ]
 let tagListHoverIndex = ref(-1)
 let tagListActiveIndex = ref(0)
-const EnterTagList = (index:number)=>{
+const enterTagList = (index: number) => {
     tagListHoverIndex.value = index
 }
-const LeaveTagList = ()=>{
+const leaveTagList = () => {
     tagListHoverIndex.value = -1
 }
-const ClickTagList = (index:number)=>{
-    tagListActiveIndex.value = index
-    getLatestMVList(tagList[index].tagSign,6).then(res=>{
+const updataLatestMVData = (area: string) => {
+    getLatestMVList(area, 6).then(res => {
         latestMVData.list = res.data.data
     })
 }
-const isTagListHover = (index:number)=>{
+const clickTagList = (index: number) => {
+    tagListActiveIndex.value = index
+    updataLatestMVData(tagList[index].tagSign)
+}
+const isTagListHover = (index: number) => {
     return tagListHoverIndex.value === index
 }
-const isTagListActive = (index:number)=>{
+const isTagListActive = (index: number) => {
     return tagListActiveIndex.value === index
 }
 //hot-mv-data
 const hotMVData = reactive(new TopMVList())
-const getHotMVData = ()=>{
-    getTopMVList(undefined,6).then(res=>{
-       hotMVData.list = res.data.data
+const getHotMVData = () => {
+    getTopMVList(undefined, 6).then(res => {
+        hotMVData.list = res.data.data
     })
 }
 
@@ -167,27 +166,25 @@ const getWangyiMVData = () => {
 }
 //mv-rank-data
 const MVRankData = reactive(new TopMVList())
-const getMVRankData = ()=>{
-    getTopMVList(undefined,10).then(res=>{
-       MVRankData.list = res.data.data
+const getMVRankData = () => {
+    getTopMVList(undefined, 10).then(res => {
+        MVRankData.list = res.data.data
     })
 }
-const updataMVRankData = (area:string)=>{
-    getTopMVList(area,10).then(res=>{
-       MVRankData.list = res.data.data
+const updataMVRankData = (area: string) => {
+    getTopMVList(area, 10).then(res => {
+        MVRankData.list = res.data.data
     })
 }
-const ClickRankTagList = (index:number)=>{
-    getTopMVList(tagList[index].tagSign,10).then(res=>{
-       MVRankData.list = res.data.data
-    })
+const clickRankTagList = (index: number) => {
+    updataMVRankData(tagList[index].tagSign)
 }
 //rank format
-const RankFormat = (number:number) =>{
-    if(number<10){
-        return '0'+number
+const RankFormat = (number: number) => {
+    if (number < 10) {
+        return '0' + number
     }
-    else return number+''
+    else return number + ''
 }
 //play count format
 const playCountFormat = (number: number) => {
@@ -250,6 +247,7 @@ li {
 .latest-mv-navigation-list {
     width: 50%;
 }
+
 .latest-mv-navigation-list ul {
     width: 100%;
     height: 100%;
@@ -258,7 +256,8 @@ li {
     align-items: center;
     font-size: 10px;
 }
-.latest-mv-navigation-list ul li{
+
+.latest-mv-navigation-list ul li {
     position: relative;
     cursor: pointer;
     margin-right: 10px;
@@ -280,10 +279,12 @@ li {
 .tagHover {
     color: black !important;
 }
+
 .tagActive {
     color: #e20000 !important;
     background-color: rgba(255, 228, 225, 70%);
 }
+
 //item
 .latest-mv-item-list {
     display: flex;
@@ -362,6 +363,7 @@ li {
     position: relative;
     font-weight: 700;
 }
+
 //list
 .hot-mv-navigation-list {
     width: 50%;
@@ -416,6 +418,7 @@ li {
     position: relative;
     font-weight: 700;
 }
+
 //list
 .wangyi-mv-navigation-list {
     width: 50%;
@@ -437,6 +440,7 @@ li {
     border-radius: 5px;
     text-align: left;
 }
+
 .wangyi-mv-item p {
     font-size: 14px;
 }
@@ -446,6 +450,7 @@ li {
     height: 140px;
     border-radius: 5px;
 }
+
 //mv-rank
 .mv-rank {
     width: calc(100% - 50px);
@@ -478,6 +483,7 @@ li {
 .mv-rank-navigation-list {
     width: 50%;
 }
+
 .mv-rank-navigation-list ul {
     width: 100%;
     height: 100%;
@@ -486,7 +492,8 @@ li {
     align-items: center;
     font-size: 10px;
 }
-.mv-rank-navigation-list ul li{
+
+.mv-rank-navigation-list ul li {
     position: relative;
     cursor: pointer;
     margin-right: 10px;
@@ -504,6 +511,7 @@ li {
     height: 10px;
     background-color: #ccc;
 }
+
 //list-item
 .mv-rank-item-list {
     height: 100%;
@@ -527,6 +535,7 @@ li {
     border-right: 1.5px solid #ececec;
     margin-right: -1.5px;
 }
+
 .mv-rank-item:last-child {
     border-bottom: 0px;
 }
@@ -534,11 +543,13 @@ li {
 .mv-rank-item:nth-last-child(2) {
     border-bottom: 0px;
 }
+
 .mv-rank-item img {
     width: 175px;
     height: 95px;
     border-radius: 5px;
 }
+
 .rank {
     display: flex;
     justify-content: center;
@@ -549,6 +560,7 @@ li {
     font-size: 20px;
     color: darkgray;
 }
+
 .mv-rank-detail {
     margin-right: 10px;
     font-size: 10px;
@@ -556,6 +568,7 @@ li {
     width: 140px;
     margin-left: 10px;
 }
+
 .mv-rank-detail p {
     text-overflow: -o-ellipsis-lastline;
     overflow: hidden;
@@ -567,11 +580,11 @@ li {
     height: 30px;
     line-height: 30px;
 }
+
 .mv-rank-detail span {
     display: block;
     margin-top: 10px;
     height: 30px;
     line-height: 30px;
     color: darkgray;
-}
-</style>
+}</style>

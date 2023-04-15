@@ -2,21 +2,21 @@
     <div class="found">
         <ul class="navigation">
             <li v-for="item, index in navList" :key="item.path" @click="navClick(index)" @mouseenter="navEnter(index)"
-                @mouseleave="navLeave" :class="[{ active: isActive(index) }, { isHover: isHover(index) }]">
+                @mouseleave="navleave" :class="[{ active: isActive(index) }, { isHover: isHover(index) }]">
                 <span>{{ item.meta.text }}</span>
             </li>
         </ul>
-        <div class="banner" @mouseenter="EnterBanner" @mouseleave="LeaveBanner">
-            <img v-for="item, index in bannerData.bannerList" :src="item.imageUrl" :class="[BannerStyle.styleList[index]]"
+        <div class="banner" @mouseenter="enterBanner" @mouseleave="leaveBanner">
+            <img v-for="item, index in bannerData.bannerList" :src="item.imageUrl" :class="[bannerStyle.styleList[index]]"
                 alt="">
             <div class="button">
                 <p v-for="item, index in bannerData.bannerList" :key="item.imageUrl"
-                    :class="{ buttonActive: isButtonHover(index) }" @mouseenter="EnterButton(index), ButtonTrigger(index)"
-                    @mouseleave="LeaveButton(index)"></p>
+                    :class="{ buttonActive: isButtonHover(index) }" @mouseenter="enterButton(index), buttonTrigger(index)"
+                    @mouseleave="leaveButton(index)"></p>
             </div>
-            <span v-show="arrowActive" @click="ClickLeftArrow" class="left-arrow"><i style="color: aliceblue;"
+            <span v-show="arrowActive" @click="clickLeftArrow" class="left-arrow"><i style="color: aliceblue;"
                     class="iconfont-header icon-arrow-left-found"></i></span>
-            <span v-show="arrowActive" @click="ClicRightArrow" class="right-arrow"><i style="color: aliceblue;"
+            <span v-show="arrowActive" @click="clicRightArrow" class="right-arrow"><i style="color: aliceblue;"
                     class="iconfont-header icon-arrow-right-found"></i></span>
         </div>
         <div class="recommendation">
@@ -43,9 +43,9 @@
             </div>
             <div class="podcast-list">
                 <div class="podcast-list-item"
-                 v-for="item,index in HotPodcastDataForSix.list" :key="item.id"
-                 @mouseenter="EnterPodcast(index)"
-                 @mouseleave="LeavePodcast(index)"
+                 v-for="item,index in hotPodcastDataForSix.list" :key="item.id"
+                 @mouseenter="enterPodcast(index)"
+                 @mouseleave="leavePodcast(index)"
                  :class="{isHover:isPodcastHover(index)}"
                  >
                     <img :src="item.picUrl" alt="">
@@ -81,7 +81,7 @@ const navClick = (index: number) => {
 const navEnter = (index: number) => {
     hoverIndex.value = index
 }
-const navLeave = () => {
+const navleave = () => {
     hoverIndex.value = -1
 }
 const isActive = (index: number) => {
@@ -101,51 +101,51 @@ getBannerList().then(res => {
 //banner event
 
 //banne arrow
-const ClickLeftArrow = () => {
+const clickLeftArrow = () => {
     prev()
 }
 
-const ClicRightArrow = () => {
+const clicRightArrow = () => {
     next()
 }
 //轮播
 
 const arrowActive = ref(false)
-const EnterBanner = () => {
+const enterBanner = () => {
     arrowActive.value = true
     clearInterval(timer)
     timer = -1
 }
-const LeaveBanner = () => {
+const leaveBanner = () => {
     arrowActive.value = false
     timer = setInterval(next, 5000)
 }
 
 function prev() {
-    BannerStyle.styleList.push(BannerStyle.styleList.shift() as string)
+    bannerStyle.styleList.push(bannerStyle.styleList.shift() as string)
 }
 function next() {
-    BannerStyle.styleList.unshift(BannerStyle.styleList.pop() as string)
+    bannerStyle.styleList.unshift(bannerStyle.styleList.pop() as string)
 }
 let timer = setInterval(next, 5000)
 //banner button
 const buttonHoverIndex = ref(-1)
-const BannerStyle = reactive(new resBannerStyle())
+const bannerStyle = reactive(new resBannerStyle())
 
-const EnterButton = (index: number) => {
+const enterButton = (index: number) => {
     buttonHoverIndex.value = index
 }
 
-const LeaveButton = (index: number) => {
+const leaveButton = (index: number) => {
     buttonHoverIndex.value = -1
 }
 const isButtonHover = (index: number) => {
-    return BannerStyle.styleList[index] == 'firstBanner'
+    return bannerStyle.styleList[index] == 'firstBanner'
 }
 
-const ButtonTrigger = (index: number) => {
+const buttonTrigger = (index: number) => {
     //当前按钮索引index 当前first图片索引x
-    let x = BannerStyle.styleList.indexOf('firstBanner')
+    let x = bannerStyle.styleList.indexOf('firstBanner')
     if (x > index) {
         let distance = x - index
         while (distance--) {
@@ -168,19 +168,19 @@ getRecommendationList().then(res => {
 
 //推荐播客
 //data
-const HotPodcastData = reactive(new HotPodcastList)
-const HotPodcastDataForSix = reactive(new HotPodcastList)
+const hotPodcastData = reactive(new HotPodcastList)
+const hotPodcastDataForSix = reactive(new HotPodcastList)
 getHotPodcastList().then(res => {
-    HotPodcastData.list = res.data.djRadios
-    HotPodcastDataForSix.list = HotPodcastData.list.filter((item, index) => index < 6)
+    hotPodcastData.list = res.data.djRadios
+    hotPodcastDataForSix.list = hotPodcastData.list.filter((item, index) => index < 6)
 })
 //hover
 let podcatsHoverIndex = ref(-1)
-const EnterPodcast = (index: number) => {
+const enterPodcast = (index: number) => {
     podcatsHoverIndex.value = index
 }
 
-const LeavePodcast = (index: number) => {
+const leavePodcast = (index: number) => {
     podcatsHoverIndex.value = -1
 }
 const isPodcastHover = (index: number) => {

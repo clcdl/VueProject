@@ -117,7 +117,7 @@ const routes: Array<RouteRecordRaw> = [
           belong:"mainMenuListTop",
           text:"关注"
         },
-        component:() => import('../components/Found.vue')
+        component:() => import('../components/Follow.vue')
       },
       {
         path:"live",

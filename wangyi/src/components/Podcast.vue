@@ -3,8 +3,8 @@
         <div class="navigation-left"><img src="../assets/podcastTop.png" alt=""></div>
         <div class="navigation-right">
             <div class="navigation-right-item" v-for="item,index in styleForNavigationRight.list" :key="item.img"
-            @mouseenter="EnterRightItem(index)"
-            @mouseleave="LeaveRihgtItem()"
+            @mouseenter="enterRightItem(index)"
+            @mouseleave="leaveRihgtItem()"
             :class="{isHover:isRightHover(index)}"
             >
             <span :class="item.img"></span>
@@ -15,7 +15,7 @@
     <div class="guess-like">
         <div class="guess-like-title">猜你喜欢</div>
         <div class="guess-like-list">
-            <div class="guess-like-list-item" v-for="item in PodcastRecommendData.list" :key="item.id">
+            <div class="guess-like-list-item" v-for="item in podcastRecommendData.list" :key="item.id">
                 <img :src="item.blurCoverUrl" alt="">
                 <div class="guess-like-list-item-detail">
                     <div>{{ item.radio.category }}</div>
@@ -34,19 +34,19 @@ import {PodcastRecommend} from '../type/podcastrecommend'
 //navigation
 const styleForNavigationRight = new StyleForNavigationRight()
 let rightHoverIndex = ref(-1)
-const EnterRightItem = (index:number)=>{
+const enterRightItem = (index:number)=>{
     rightHoverIndex.value = index
 }
-const LeaveRihgtItem = ()=>{
+const leaveRihgtItem = ()=>{
     rightHoverIndex.value = -1
 }
 const isRightHover = (index:number)=>{
     return rightHoverIndex.value === index
 }
 //recommend
-const PodcastRecommendData = reactive(new PodcastRecommend)
+const podcastRecommendData = reactive(new PodcastRecommend)
 getPodcastRecommendList().then(res=>{
-    PodcastRecommendData.list = res.data.programs
+    podcastRecommendData.list = res.data.programs
 })
 </script>
 

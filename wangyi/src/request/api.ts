@@ -80,3 +80,13 @@ export function getTopMVList(area?:string,limit?:number){
         }
     })
 }
+
+export function getHotTopic(limit?:number){
+    return service({
+        url:"/hot/topic",
+        method:"get",
+        params:{
+            limit
+        }
+    })
+}

@@ -22,7 +22,7 @@
             <div class="user-bar">
                 <div class="userInfo">
                     <img src="../assets/vue.svg" alt="#">
-                    <span>用户名</span>
+                    <span>未登录</span>
                     <ul>
                         <li><i class="iconfont-header icon-theme"></i></li>
                         <li><i class="iconfont-header icon-setting"></i></li>
