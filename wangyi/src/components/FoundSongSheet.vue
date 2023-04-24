@@ -1,10 +1,13 @@
 <template>
     <div class="song-sheet">
         <div class="boutique" v-for="item in highQualityPlayListData.list">
-            <img :src="item.coverImgUrl" alt="">
+                <img :src="item.coverImgUrl" alt="">
             <div class="boutique-detail">
                 <p>精品歌单</p>
-                <span>{{item.name}}</span>
+                <span>{{ item.name }}</span>
+            </div>
+            <div class="boutique-bgc-box">
+                <div class="boutique-bgc" :style="{'background-image':'url(' + item.coverImgUrl + ')'}"></div>
             </div>
         </div>
         <div class="navigation">
@@ -71,11 +74,11 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue';
-import { getCategoryList, getHotPlayList, getPlayList ,getHighqualityTags,getHighqualityPlayList} from '../request/api'
+import { getCategoryList, getHotPlayList, getPlayList, getHighqualityTags, getHighqualityPlayList } from '../request/api'
 import { CategoryPlayList, CategoryTagExpand, Sub } from '../type/categoryplaylist'
 import { HotPlayList } from '../type/hotplaylist'
 import { PlayList } from '../type/palylist'
-import {HighqualityTags,HighQualityPlayList} from '../type/boutique'
+import { HighqualityTags, HighQualityPlayList } from '../type/boutique'
 onMounted(() => {
     getHighQualityTagsData()
     getCategoryListData()
@@ -87,15 +90,14 @@ onMounted(() => {
 //boutique
 const highQualityTagsData = reactive(new HighqualityTags())
 const highQualityPlayListData = reactive(new HighQualityPlayList())
-const getHighQualityTagsData = ()=>{
-    getHighqualityTags().then(res=>{
-    highQualityTagsData.list = res.data.tags
-})
+const getHighQualityTagsData = () => {
+    getHighqualityTags().then(res => {
+        highQualityTagsData.list = res.data.tags
+    })
 }
-const updateBoutique = (cat?:string)=>{
-    getHighqualityPlayList(cat,1,undefined).then(res=>{
+const updateBoutique = (cat?: string) => {
+    getHighqualityPlayList(cat, 1, undefined).then(res => {
         highQualityPlayListData.list = res.data.playlists
-        console.log(highQualityPlayListData.list)
     })
 }
 //tag-list-left
@@ -237,22 +239,21 @@ const playCountFormat = (number: number) => {
 li {
     list-style-type: none;
 }
-
 .boutique {
-
-    border-radius: 10px;
+    position: relative;
     margin: 0px 25px;
     display: flex;
     align-items: center;
-    background-color: #ccc;
+    border-radius: 10px;
+    z-index: 9;
 }
-
 .boutique img {
-    height: 150px;
-    width: 150px;
+    height: 140px;
+    width: 140px;
     padding: 20px 0;
     margin-left: 15px;
     border-radius: 10px;
+    z-index: 9;
 }
 
 .boutique-detail {
@@ -261,6 +262,7 @@ li {
     align-items: start;
     height: 150px;
     margin-left: 20px;
+    z-index: 9;
 }
 
 .boutique-detail p {
@@ -279,6 +281,20 @@ li {
     color: aliceblue;
 }
 
+.boutique-bgc-box {
+    z-index: 1;
+    position: absolute;
+    height: 180px;
+    width: 765px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.boutique-bgc {
+    height: 180px;
+    width: 765px;
+    border-radius: 10px;
+    filter: blur(15px) brightness(60%);
+}
 //navigation
 .navigation {
     position: relative;
@@ -394,6 +410,7 @@ li {
     padding: 2px 4px;
     border-radius: 20px;
 }
+
 .hot {
     position: absolute;
     right: -20px;
@@ -404,6 +421,7 @@ li {
     color: #e20000;
 
 }
+
 .tagExpandHover {
     color: #e20000 !important;
 }
