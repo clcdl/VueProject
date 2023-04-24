@@ -89,7 +89,6 @@ let isShowAllTagList = ref(false)
 let isTagSelectHover = ref(false)
 
 const showAllVideo = () => {
-    tagShow.value = '全部视频'
     getVideoData()
 }
 const showAllTagList = ()=>{

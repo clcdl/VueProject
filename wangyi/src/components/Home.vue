@@ -2,7 +2,7 @@
     <div class="index">
         <div class="header">
             <div class="header-logo" style="width: 200px;">
-                <img @click="logoClick" src="../assets/logo.jpeg" alt=""
+                <img @click="logoClick()" src="../assets/logo.jpeg" alt=""
                     style="width: 180px;height: 60px; cursor: pointer; margin-right: 30px;">
             </div>
 
@@ -84,6 +84,9 @@ const menuList1 = router.getRoutes().filter((item) => item.meta.belong == "mainM
 const menuList2 = router.getRoutes().filter((item) => item.meta.belong == "mainMenuListBottom")
 //header
 const logoClick = () => {
+    router.push({
+        path:'/found'
+    })
     selectedIndex.value = 0
 }
 //main-menu
@@ -107,16 +110,11 @@ let itemStyles: string[] = [
     '', //播客
     '', //视频
     '', //关注
-    '', //直播
     '', //私人FM
     'icon-favorite', //我喜欢的音乐
     'icon-local', //本地与下载
     'icon-currently', //最近播放
-    'icon-clouddisk', //我的音乐云盘
-    'icon-mypodcast', //我的播客
-    'icon-collected', //我的收藏
     '', //创建的歌单
-    '', //收藏的歌单
 ]
 let selectedIndex = ref(0)
 let hoverIndex = ref(-1)

@@ -15,59 +15,60 @@ const routes: Array<RouteRecordRaw> = [
           text:"发现音乐"
         },
         component:() => import('../components/Found.vue'),
+        redirect:"/found/recommendation",
         children:[
           {
-            path:"recommendation",
-            name:"recommendation",
+            path:"/found/recommendation",
+            name:"/found/recommendation",
             meta:{
               belong:"foundNavigation",
               text:"个性推荐"
             },
-            component:() => import('../components/Recommendation.vue')
+            component:() => import('../components/FoundRecommendation.vue')
           },
           {
-            path:"customized",
-            name:"customized",
+            path:"/found/customized",
+            name:"/found/customized",
             meta:{
               belong:"foundNavigation",
               text:"专属定制"
             },
-            component:() => import('../components/Recommendation.vue')
+            component:() => import('../components/FoundCustomized.vue')
           },
           {
-            path:"songsheet",
-            name:"songsheet",
+            path:"/found/songsheet",
+            name:"/found/songsheet",
             meta:{
               belong:"foundNavigation",
               text:"歌单"
             },
-            component:() => import('../components/Recommendation.vue')
+            component:() => import('../components/FoundSongSheet.vue')
           },
           {
-            path:"rankinglist",
-            name:"rankinglist",
+            path:"/found/ranklist",
+            name:"/found/ranklist",
             meta:{
               belong:"foundNavigation",
               text:"排行榜"
             },
-            component:() => import('../components/Recommendation.vue')
+            component:() => import('../components/FoundRankList.vue')
           },
           {
-            path:"singer",
-            name:"singer",
+            path:"/found/singer",
+            name:"/found/singer",
             meta:{
               belong:"foundNavigation",
               text:"歌手"
             },
-            component:() => import('../components/Recommendation.vue')
+            component:() => import('../components/FoundSinger.vue')
           },          {
-            path:"latestmusic",
-            name:"latestmusic",
+            path:"/found/latest",
+            name:"/found/latest",
             meta:{
               belong:"foundNavigation",
               text:"最新音乐"
             },
-            component:() => import('../components/Recommendation.vue')
+            component:() => import('../components/FoundLatest.vue')
           },
         ]
       },
@@ -120,15 +121,6 @@ const routes: Array<RouteRecordRaw> = [
         component:() => import('../components/Follow.vue')
       },
       {
-        path:"live",
-        name:"live",
-        meta:{
-          belong:"mainMenuListTop",
-          text:"直播"
-        },
-        component:() => import('../components/Found.vue')
-      },
-      {
         path:"FM",
         name:"FM",
         meta:{
@@ -164,48 +156,13 @@ const routes: Array<RouteRecordRaw> = [
         },
         component:() => import('../components/Found.vue')
       },
-      {
-        path:"clouddisk",
-        name:"clouddisk",
-        meta:{
-          belong:"mainMenuListBottom",
-          text:"我的音乐云盘"
-        },
-        component:() => import('../components/Found.vue')
-      },
-      {
-        path:"mypodcast",
-        name:"mypodcast",
-        meta:{
-          belong:"mainMenuListBottom",
-          text:"我的播客"
-        },
-        component:() => import('../components/Found.vue')
-      },
-      {
-        path:"collection",
-        name:"collection",
-        meta:{
-          belong:"mainMenuListBottom",
-          text:"我的收藏"
-        },
-        component:() => import('../components/Found.vue')
-      },
+
       {
         path:"created",
         name:"created",
         meta:{
           belong:"mainMenuListBottom",
           text:"创建的歌单"
-        },
-        component:() => import('../components/Found.vue')
-      },
-      {
-        path:"collected",
-        name:"collected",
-        meta:{
-          belong:"mainMenuListBottom",
-          text:"收藏的歌单"
         },
         component:() => import('../components/Found.vue')
       },

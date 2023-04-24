@@ -12,10 +12,13 @@ export function getBannerList(){
         method:"get"
     })
 }
-export function getRecommendationList(){
+export function getRecommendationList(limit?:number){
     return service({
-        url:"/personalized?limit=10",
-        method:"get"
+        url:"/personalized",
+        method:"get",
+        params:{
+            limit
+        }
     })
 }
 export function getHotPodcastList(){
@@ -87,6 +90,57 @@ export function getHotTopic(limit?:number){
         method:"get",
         params:{
             limit
+        }
+    })
+}
+
+export function getRadarPlayList(){
+    return service({
+        url:"/recommend/resource",
+        method:"get",
+    })
+}
+export function getCategoryList(){
+    return service({
+        url:"/playlist/catlist",
+        method:"get",
+    })
+}
+
+export function getHotPlayList(){
+    return service({
+        url:"/playlist/hot",
+        method:"get",
+    })
+}
+
+export function getPlayList(cat?:string,limit?:number,offset?:number){
+    return service({
+        url:"/top/playlist",
+        method:"get",
+        params:{
+            cat,
+            limit,
+            offset
+        }
+    })
+}
+
+export function getHighqualityTags(){
+    return service({
+        url:"/playlist/highquality/tags",
+        method:"get",
+    })
+}
+
+export function getHighqualityPlayList(cat?:string,limit?:number,offset?:number){
+    return service({
+        url:"/top/playlist/highquality",
+        method:"get",
+        params:{
+            cat,
+            limit,
+            offset
         }
     })
 }
