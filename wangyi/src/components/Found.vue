@@ -13,10 +13,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
+import { ref, reactive,onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 const router = useRouter();
 const navList = router.getRoutes().filter((item) => item.meta.belong == "foundNavigation")
+const route = useRoute()
+onMounted(()=>{
+
+})
 //navigation
 let activeIndex = ref(0)
 let hoverIndex = ref(-1)

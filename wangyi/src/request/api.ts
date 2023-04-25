@@ -1,8 +1,39 @@
 import service from ".";
 
-export function noLogging(){
+export function ceateQrKey(){
     return service({
-        url:"/register/anonimous",
+        url:"/login/qr/key",
+        method:"get"
+    })
+}
+export function ceateQr(key:string){
+    return service({
+        url:"/login/qr/create",
+        method:"get",
+        params:{
+            key
+        }
+    })
+}
+export function qrCheck(key:string){
+    return service({
+        url:"/login/qr/check",
+        method:"get",
+        withCredentials: true,
+        params:{
+            key
+        }
+    })
+}
+export function logStatus(){
+    return service({
+        url:"/login/status",
+        method:"get"
+    })
+}
+export function logout(){
+    return service({
+        url:"/logout",
         method:"get"
     })
 }
@@ -139,6 +170,31 @@ export function getHighqualityPlayList(cat?:string,limit?:number,offset?:number)
         method:"get",
         params:{
             cat,
+            limit,
+            offset
+        }
+    })
+}
+
+export function getPlayListDetail(id:number,s?:number){
+    return service({
+        url:"/playlist/detail",
+        method:"get",
+        withCredentials: true,
+        params:{
+            id,
+            s
+        }
+    })
+}
+
+export function getAllSongs(id:number,limit?:number,offset?:number){
+    return service({
+        url:"/playlist/track/all",
+        method:"get",
+        withCredentials: true,
+        params:{
+            id,
             limit,
             offset
         }

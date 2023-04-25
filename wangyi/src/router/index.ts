@@ -127,7 +127,7 @@ const routes: Array<RouteRecordRaw> = [
           belong:"mainMenuListTop",
           text:"私人FM"
         },
-        component:() => import('../components/Found.vue')
+        component:() => import('../components/PlayListDetail.vue')
       },
       {
         path:"favorite",
@@ -165,6 +165,41 @@ const routes: Array<RouteRecordRaw> = [
           text:"创建的歌单"
         },
         component:() => import('../components/Found.vue')
+      },
+      {
+        path:"playlistdetail",
+        name:"playlistdetail",
+        component:() => import('../components/PlayListDetail.vue'),
+        redirect:'/playlistdetail/list',
+        children:[
+          {
+            path:"/playlistdetail/list",
+            name:"/platlistdetail/list",
+            meta:{
+              belong:"playlistdetail",
+              text:"歌曲列表"
+            },
+            component:() => import('../components/PlayListDetailList.vue')
+          },
+          {
+            path:"/playlistdetail/comment",
+            name:"/platlistdetail/comment",
+            meta:{
+              belong:"playlistdetail",
+              text:"评论"
+            },
+            component:() => import('../components/FoundRecommendation.vue')
+          },
+          {
+            path:"/playlistdetail/collection",
+            name:"/platlistdetail/collection",
+            meta:{
+              belong:"playlistdetail",
+              text:"收藏"
+            },
+            component:() => import('../components/FoundRecommendation.vue')
+          },
+        ]
       },
     ]
   }

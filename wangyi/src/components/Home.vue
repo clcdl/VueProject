@@ -74,12 +74,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive, computed,onMounted } from 'vue';
 import { useRouter, useRoute, RouteRecordNormalized } from 'vue-router';
-import { noLogging } from '../request/api';
+import { logStatus,logout } from '../request/api';
 const router = useRouter()
 const route = useRoute()
-noLogging()
+onMounted(()=>{
+    logout()
+    logStatus().then(res=>{
+        console.log(res.data)
+    })
+})
 const menuList1 = router.getRoutes().filter((item) => item.meta.belong == "mainMenuListTop")
 const menuList2 = router.getRoutes().filter((item) => item.meta.belong == "mainMenuListBottom")
 //header

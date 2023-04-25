@@ -14,7 +14,7 @@
                     class="iconfont-header icon-arrow-right-found"></i></span>
         </div>
         <div class="recommendation">
-            <div class="recommendation-title">
+            <div class="recommendation-title" @click="intoSongSheet()">
                 <span>推荐歌单</span>
                 <div class="rec-arrow"></div>
             </div>
@@ -60,11 +60,11 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { getBannerList, getRecommendationList, getHotPodcastList } from '../request/api';
+import { getBannerList, getRecommendationList, getHotPodcastList,getPlayListDetail } from '../request/api';
 import { BannerList, resBannerStyle } from '../type/banner'
 import { RecommendationList, } from '../type/recommendation'
 import { HotPodcastList } from '../type/podcast'
-
+const router = useRouter()
 //banner   //data
 const bannerData = reactive(new BannerList)
 
@@ -139,7 +139,17 @@ const recommendationData = reactive(new RecommendationList())
 getRecommendationList(10).then(res => {
     recommendationData.list = res.data.result
 })
+//传参未解决
+const intoSongSheet = ()=>{
+    router.push({
+        name:'/found/songsheet',
+    })
+    
+}
 
+const intoPlayListDetail = ()=>{
+    
+}
 //推荐播客
 //data
 const hotPodcastData = reactive(new HotPodcastList)
@@ -311,12 +321,14 @@ const playCountFormat = (number: number) => {
 }
 
 .song-list-item img {
+    cursor: pointer;
     width: 140px;
     height: 140px;
     border-radius: 5px;
 }
 
 .song-list-item p {
+    cursor: pointer;
     text-overflow: -o-ellipsis-lastline;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -326,7 +338,7 @@ const playCountFormat = (number: number) => {
     -webkit-box-orient: vertical;
     height: 50px;
     text-align: left;
-    margin-top: 2px;
+    margin-top: 4px;
 }
 
 .play-time-box {
