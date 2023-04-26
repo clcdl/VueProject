@@ -37,6 +37,13 @@ export function logout(){
         method:"get"
     })
 }
+export function noLogging(){
+    return service({
+        url:"/register/anonimous",
+        method:"get"
+    })
+}
+
 export function getBannerList(){
     return service({
         url:"/banner",

@@ -76,12 +76,11 @@
 <script setup lang="ts">
 import { ref, reactive, computed,onMounted } from 'vue';
 import { useRouter, useRoute, RouteRecordNormalized } from 'vue-router';
-import { logStatus,logout } from '../request/api';
+import { logStatus,logout,noLogging } from '../request/api';
 const router = useRouter()
 const route = useRoute()
 onMounted(()=>{
-    logout()
-    logStatus().then(res=>{
+    noLogging().then(res=>{
         console.log(res.data)
     })
 })
@@ -93,6 +92,10 @@ const logoClick = () => {
         path:'/found'
     })
     selectedIndex.value = 0
+
+    logStatus().then(res=>{
+        console.log(res.data)
+    })
 }
 //main-menu
 let isScroll: boolean = false

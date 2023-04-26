@@ -19,7 +19,9 @@
                 <div class="rec-arrow"></div>
             </div>
             <div class="song-list">
-                <div class="song-list-item" v-for="item, index in recommendationData.list" :key="item.id">
+                <div class="song-list-item" v-for="item, index in recommendationData.list" :key="item.id"
+                @click="intoPlayListDetail(item)"
+                >
                     <i class="play-icon"></i>
                     <img :src="item.picUrl" alt="">
                     <p>{{ item.name }}</p>
@@ -62,7 +64,7 @@ import { ref, reactive } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { getBannerList, getRecommendationList, getHotPodcastList,getPlayListDetail } from '../request/api';
 import { BannerList, resBannerStyle } from '../type/banner'
-import { RecommendationList, } from '../type/recommendation'
+import { RecommendationList,RecommendationType } from '../type/recommendation'
 import { HotPodcastList } from '../type/podcast'
 const router = useRouter()
 //banner   //data
@@ -147,8 +149,13 @@ const intoSongSheet = ()=>{
     
 }
 
-const intoPlayListDetail = ()=>{
-    
+const intoPlayListDetail = (item:RecommendationType)=>{
+    router.push({
+        name:'playlistdetail',
+        query: {
+            id:item.id
+        }
+    })
 }
 //推荐播客
 //data

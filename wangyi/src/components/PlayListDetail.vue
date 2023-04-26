@@ -1,11 +1,14 @@
 <template>
     <div class="header">
         <div class="img-box">
-            <img src="" alt="">
+            <img :src="playListDetailData.data.playlist.coverImgUrl" alt="">
         </div>
         <div class="description-box">
-            <div class="title">今天从</div>
-            <div class="creator">22222222</div>
+            <div class="title">{{ playListDetailData.data.playlist.name }}</div>
+            <div class="creator">
+                <span>{{ playListDetailData.data.playlist.creator.nickname }}</span>
+                <span style="margin-left: 10px;">{{ timeFormat(playListDetailData.data.playlist.createTime) + '创建' }}</span>
+            </div>
             <div class="operation">
                 <div class="play-all">
                     <div class="play-ico"></div>
@@ -16,13 +19,20 @@
                 <div class="share">分享</div>
                 <div class="download">下载</div>
             </div>
-            <div class="tag">标签:</div>
+            <div class="tag">标签：
+                <span>{{ playListDetailData.data.playlist.tags }}</span>
+            </div>
             <div class="song-length-box">
-                <span class="song-length">歌曲:</span>
-                <span class="play">播放:</span>
+                <span class="song-length">歌曲:
+                    <span>{{ playListDetailData.data.privileges.length }}</span>
+                </span>
+                <span class="play">播放:
+                    <span>{{ playListDetailData.data.playlist.playCount }}</span>
+                </span>
             </div>
             <div class="description">
                 简介:
+                <span>{{ playListDetailData.data.playlist.description }}</span>
             </div>
         </div>
     </div>
@@ -40,12 +50,26 @@
 </template>
 
 <script setup lang="ts">
-import { ref,reactive,onMounted } from 'vue';
-import { useRoute,useRouter } from 'vue-router';
-
-const router = useRouter();
-const navList = router.getRoutes().filter((item) => item.meta.belong == "playlistdetail")
+import { ref, reactive, onMounted, toRefs } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { getPlayListDetail } from '../request/api'
+import { PlayListDetail } from '../type/playlistdetail'
+import { computed } from '@vue/reactivity';
+onMounted(() => {
+    getPlayListDetailData()
+})
+const router = useRouter()
+const route = useRoute()
+//data
+let playListDetailData = reactive(new PlayListDetail())
+const getPlayListDetailData = () => {
+    getPlayListDetail(route.query.id as unknown as number).then(res => {
+        playListDetailData.data = reactive(res.data)
+        console.log(playListDetailData.data)
+    })
+}
 //navigation
+const navList = router.getRoutes().filter((item) => item.meta.belong == "playlistdetail")
 let activeIndex = ref(0)
 let hoverIndex = ref(-1)
 const navClick = (index: number) => {
@@ -66,15 +90,26 @@ const isActive = (index: number) => {
 const isHover = (index: number) => {
     return index === hoverIndex.value
 }
+
+const timeFormat = (time: number) => {
+    let date = new Date(time / 1000)
+    let Y = date.getFullYear() + '-'
+    let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
+    let D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' '
+    let H = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':'
+    let Mi = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':'
+    let S = (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds())
+    return Y + M + D
+}
 </script>
 
 <style lang="less" scoped>
 li {
     list-style-type: none;
 }
+
 .header {
     display: flex;
-    background-color: aqua;
     height: 240px;
 }
 
@@ -82,7 +117,6 @@ li {
     display: flex;
     width: 28%;
     align-items: center;
-    background-color: aquamarine;
 }
 
 .img-box img {
@@ -97,26 +131,30 @@ li {
     flex-direction: column;
     flex: 1;
     margin-top: 25px;
-    background-color: azure;
     text-align: start;
     font-size: 14px;
+    color: #474747;
 }
 
 .title {
     height: 35px;
-    background-color: #474747;
+    line-height: 35px;
     font-size: larger;
     font-weight: bold;
 }
+
 .creator {
-    height: 40px;
+    font-size: 10px;
+    height: 20px;
+    line-height: 20px;
 }
+
 .operation {
     display: flex;
     align-items: center;
     height: 70px;
-    background-color: bisque;
 }
+
 .play-all {
     position: relative;
     width: 100px;
@@ -127,9 +165,11 @@ li {
     color: aliceblue;
     line-height: 30px;
 }
-.play-all span{
+
+.play-all span {
     margin-left: 30px;
 }
+
 .play-ico {
     position: absolute;
     top: 8px;
@@ -142,6 +182,7 @@ li {
     z-index: 99;
     scale: 1.1;
 }
+
 .add {
     width: 25px;
     height: 30px;
@@ -162,6 +203,7 @@ li {
     border: 1px solid darkgrey;
     margin-left: 10px;
 }
+
 .share {
     width: 100px;
     height: 30px;
@@ -169,6 +211,7 @@ li {
     border: 1px solid darkgrey;
     margin-left: 10px;
 }
+
 .download {
     width: 100px;
     height: 30px;
@@ -176,19 +219,24 @@ li {
     border: 1px solid darkgrey;
     margin-left: 10px;
 }
+
 .song-length-box {
     margin-top: 2px;
 }
+
 .play {
-    margin-left: 50px;
+    margin-left: 20px;
 }
+
 .description {
     margin-top: 2px;
 }
+
 //navigation
 .navigation-box {
     margin-bottom: 10px;
 }
+
 .navigation {
     display: flex;
     align-items: center;

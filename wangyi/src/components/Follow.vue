@@ -49,16 +49,15 @@ import {getHotTopic,ceateQrKey,ceateQr,qrCheck} from '../request/api'
 import {HotTopicList} from '../type/topic'
 onMounted(()=>{
     getHotTopicData()
-    log()
 })
-const log = ()=>{
+/* const log = ()=>{
     ceateQrKey().then(res=>{
         console.log(res.data.data.unikey)
         ceateQr(res.data.data.unikey).then(res=>{
             console.log(res.data)
         })
     })
-}
+} */
 //热门话题
 const hotTopicData = reactive(new HotTopicList())
 const getHotTopicData = ()=>{
