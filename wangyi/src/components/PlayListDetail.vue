@@ -15,19 +15,28 @@
                     <span>播放全部</span>
                 </div>
                 <div class="add">+</div>
-                <div class="collection">收藏</div>
-                <div class="share">分享</div>
-                <div class="download">下载</div>
+                <div class="collection">
+                    <img src="../assets/收藏.png" alt="">
+                    <span>{{ '分享'+'('+countFormat(playListDetailData.data.playlist.subscribedCount)+')' }}</span>
+                </div>
+                <div class="share">
+                    <img src="../assets/分享.png" alt="">
+                    <span>{{ '分享'+'('+countFormat(playListDetailData.data.playlist.shareCount)+')' }}</span>
+                </div>
+                <div class="download">
+                    <img src="../assets/下载.png" alt="">
+                    <span>下载全部</span>
+                </div>
             </div>
             <div class="tag">标签：
                 <span>{{ playListDetailData.data.playlist.tags }}</span>
             </div>
             <div class="song-length-box">
                 <span class="song-length">歌曲:
-                    <span>{{ playListDetailData.data.privileges.length }}</span>
+                    <span>{{ playListDetailData.data.playlist.trackCount }}</span>
                 </span>
                 <span class="play">播放:
-                    <span>{{ playListDetailData.data.playlist.playCount }}</span>
+                    <span>{{ countFormat(playListDetailData.data.playlist.playCount) }}</span>
                 </span>
             </div>
             <div class="description">
@@ -65,7 +74,7 @@ let playListDetailData = reactive(new PlayListDetail())
 const getPlayListDetailData = () => {
     getPlayListDetail(route.query.id as unknown as number).then(res => {
         playListDetailData.data = reactive(res.data)
-        console.log(playListDetailData.data)
+        console.log(timeFormat(playListDetailData.data.playlist.createTime))
     })
 }
 //navigation
@@ -74,7 +83,8 @@ let activeIndex = ref(0)
 let hoverIndex = ref(-1)
 const navClick = (index: number) => {
     router.push({
-        path: navList[index].path
+        path: navList[index].path,
+        query:{id:route.query.id}
     })
     activeIndex.value = index
 }
@@ -92,7 +102,7 @@ const isHover = (index: number) => {
 }
 
 const timeFormat = (time: number) => {
-    let date = new Date(time / 1000)
+    let date = new Date(time)
     let Y = date.getFullYear() + '-'
     let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
     let D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' '
@@ -100,6 +110,15 @@ const timeFormat = (time: number) => {
     let Mi = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':'
     let S = (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds())
     return Y + M + D
+}
+const countFormat = (number: number) => {
+    if (number > 100000000) {
+        return Math.floor(number / 100000000) + '亿'
+    }
+    if (number > 100000) {
+        return Math.floor(number / 10000) + '万'
+    }
+    return number
 }
 </script>
 
@@ -154,7 +173,10 @@ li {
     align-items: center;
     height: 70px;
 }
-
+.operation img {
+    height: 20px;
+    width: 20px;
+}
 .play-all {
     position: relative;
     width: 100px;
@@ -197,29 +219,44 @@ li {
 }
 
 .collection {
-    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 110px;
     height: 30px;
     border-radius: 15px;
     border: 1px solid darkgrey;
     margin-left: 10px;
 }
-
+.collection:hover {
+    background-color: rgba(220, 220, 220, 0.6);
+}
 .share {
-    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 110px;
     height: 30px;
     border-radius: 15px;
     border: 1px solid darkgrey;
     margin-left: 10px;
 }
-
+.share:hover {
+    background-color: rgba(220, 220, 220, 0.6);
+}
 .download {
-    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 110px;
     height: 30px;
     border-radius: 15px;
     border: 1px solid darkgrey;
     margin-left: 10px;
 }
-
+.download:hover {
+    background-color: rgba(220, 220, 220, 0.6);
+}
 .song-length-box {
     margin-top: 2px;
 }
@@ -229,6 +266,13 @@ li {
 }
 
 .description {
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
     margin-top: 2px;
 }
 

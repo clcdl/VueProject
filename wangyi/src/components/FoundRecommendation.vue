@@ -20,8 +20,7 @@
             </div>
             <div class="song-list">
                 <div class="song-list-item" v-for="item, index in recommendationData.list" :key="item.id"
-                @click="intoPlayListDetail(item)"
-                >
+                    @click="intoPlayListDetail(item)">
                     <i class="play-icon"></i>
                     <img :src="item.picUrl" alt="">
                     <p>{{ item.name }}</p>
@@ -38,12 +37,9 @@
                 <div class="pdc-arrow"></div>
             </div>
             <div class="podcast-list">
-                <div class="podcast-list-item"
-                 v-for="item,index in hotPodcastDataForSix.list" :key="item.id"
-                 @mouseenter="enterPodcast(index)"
-                 @mouseleave="leavePodcast(index)"
-                 :class="{isHover:isPodcastHover(index)}"
-                 >
+                <div class="podcast-list-item" v-for="item, index in hotPodcastDataForSix.list" :key="item.id"
+                    @mouseenter="enterPodcast(index)" @mouseleave="leavePodcast(index)"
+                    :class="{ isHover: isPodcastHover(index) }">
                     <img :src="item.picUrl" alt="">
                     <div class="pdc-detail">
                         <div class="pdc-detail-title">{{ item.copywriter }}</div>
@@ -60,20 +56,27 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { getBannerList, getRecommendationList, getHotPodcastList,getPlayListDetail } from '../request/api';
+import { getBannerList, getRecommendationList, getHotPodcastList, getPlayListDetail } from '../request/api';
 import { BannerList, resBannerStyle } from '../type/banner'
-import { RecommendationList,RecommendationType } from '../type/recommendation'
+import { RecommendationList, RecommendationType } from '../type/recommendation'
 import { HotPodcastList } from '../type/podcast'
 const router = useRouter()
+onMounted(() => {
+    getBannerListData()
+    getRecommendationListData()
+    getPodcastListData()
+})
 //banner   //data
 const bannerData = reactive(new BannerList)
 
-getBannerList().then(res => {
-    bannerData.bannerList = res.data.banners
-})
+const getBannerListData = () => {
+    getBannerList().then(res => {
+        bannerData.bannerList = res.data.banners
+    })
 
+}
 //banner event
 
 //banne arrow
@@ -138,22 +141,24 @@ const buttonTrigger = (index: number) => {
 
 //推荐歌单
 const recommendationData = reactive(new RecommendationList())
-getRecommendationList(10).then(res => {
-    recommendationData.list = res.data.result
-})
-//传参未解决
-const intoSongSheet = ()=>{
-    router.push({
-        name:'/found/songsheet',
+const getRecommendationListData = () => {
+    getRecommendationList(10).then(res => {
+        recommendationData.list = res.data.result
     })
-    
+}
+//传参未解决
+const intoSongSheet = () => {
+    router.push({
+        name: '/found/songsheet',
+    })
+
 }
 
-const intoPlayListDetail = (item:RecommendationType)=>{
+const intoPlayListDetail = (item: RecommendationType) => {
     router.push({
-        name:'playlistdetail',
+        name: 'playlistdetail',
         query: {
-            id:item.id
+            id: item.id
         }
     })
 }
@@ -161,10 +166,12 @@ const intoPlayListDetail = (item:RecommendationType)=>{
 //data
 const hotPodcastData = reactive(new HotPodcastList)
 const hotPodcastDataForSix = reactive(new HotPodcastList)
-getHotPodcastList().then(res => {
-    hotPodcastData.list = res.data.djRadios
-    hotPodcastDataForSix.list = hotPodcastData.list.filter((item, index) => index < 6)
-})
+const getPodcastListData = () => {
+    getHotPodcastList().then(res => {
+        hotPodcastData.list = res.data.djRadios
+        hotPodcastDataForSix.list = hotPodcastData.list.filter((item, index) => index < 6)
+    })
+}
 //hover
 let podcatsHoverIndex = ref(-1)
 const enterPodcast = (index: number) => {
@@ -345,6 +352,7 @@ const playCountFormat = (number: number) => {
     -webkit-box-orient: vertical;
     height: 50px;
     text-align: left;
+    font-size: 14px;
     margin-top: 4px;
 }
 
@@ -359,6 +367,7 @@ const playCountFormat = (number: number) => {
     font-size: 10px;
     color: aliceblue;
 }
+
 .play {
     position: absolute;
     top: 29%;
@@ -409,6 +418,7 @@ const playCountFormat = (number: number) => {
 }
 
 .podcast-list-item {
+    cursor: pointer;
     display: flex;
     justify-content: left;
     height: 85px;
@@ -450,9 +460,11 @@ const playCountFormat = (number: number) => {
     font-size: 10px;
     display: flex;
 }
-.author-name{
+
+.author-name {
     cursor: pointer;
 }
+
 .pdc-play {
     position: relative;
     margin-left: 30px;
@@ -470,5 +482,9 @@ const playCountFormat = (number: number) => {
     border-color: transparent transparent transparent darkgray;
     z-index: 99;
     scale: 0.8;
+}
+
+.isHover {
+    background-color: #eee;
 }
 </style>

@@ -6,7 +6,9 @@
         </div>
         <div class="radar-list-box">
             <ul class="radar-list">
-                <li class="radar-list-item" v-for="item in RadarPlayListForFive.list" :key="item.id">
+                <li class="radar-list-item" v-for="item in RadarPlayListForFive.list" :key="item.id"
+                @click="intoPlayListDetail(item.id)"
+                >
                     <img :src="item.picUrl" alt="">
                     <p>{{ item.name }}</p>
                     <div class="play-time-box">
@@ -20,7 +22,9 @@
             <div class="rec-title">黄昏也挡不住好音乐</div>
             <div class="rec-list-box">
                 <ul class="rec-list">
-                    <li class="rec-list-item" v-for="item in recData.list" :key="item.id">
+                    <li class="rec-list-item" v-for="item in recData.list" :key="item.id"
+                    @click="intoPlayListDetail(item.id)"
+                    >
                         <img :src="item.picUrl" alt="">
                         <p>{{ item.name }}</p>
                         <div class="play-time-box">
@@ -38,9 +42,12 @@
 import { ref, reactive, onMounted } from 'vue';
 import { getRadarPlayList, getRecommendationList } from '../request/api'
 import { RadarPlayList } from '../type/radarplaylist'
-import { RecommendationList } from '../type/recommendation'
+import { RecommendationList ,RecommendationType} from '../type/recommendation'
+import { useRouter } from 'vue-router';
+const router = useRouter()
 onMounted(() => {
     getRadarPlayListData()
+    getRecData()
 })
 
 const RadarPlayListData = reactive(new RadarPlayList())
@@ -55,9 +62,19 @@ const getRadarPlayListData = () => {
 
 //rec
 const recData = reactive(new RecommendationList())
-getRecommendationList(50).then(res => {
+const getRecData = ()=>{
+    getRecommendationList(50).then(res => {
     recData.list = res.data.result
 })
+}
+const intoPlayListDetail = (id:number)=>{
+    router.push({
+        name:'playlistdetail',
+        query: {
+            id:id
+        }
+    })
+}
 //播放量数据格式化
 const playCountFormat = (number: number) => {
     if (number > 100000000) {

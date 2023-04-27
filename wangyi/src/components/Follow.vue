@@ -9,7 +9,6 @@
                 </div>
             </div>
             <div class="post-list">暂无动态
-                <div></div>
             </div>
         </div>
         <div class="broadside">

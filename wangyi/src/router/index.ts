@@ -127,7 +127,7 @@ const routes: Array<RouteRecordRaw> = [
           belong:"mainMenuListTop",
           text:"私人FM"
         },
-        component:() => import('../components/PlayListDetail.vue')
+        component:() => import('../components/FM.vue')
       },
       {
         path:"favorite",
@@ -188,7 +188,7 @@ const routes: Array<RouteRecordRaw> = [
               belong:"playlistdetail",
               text:"评论"
             },
-            component:() => import('../components/FoundRecommendation.vue')
+            component:() => import('../components/PlayListComment.vue')
           },
           {
             path:"/playlistdetail/collection",
@@ -197,7 +197,7 @@ const routes: Array<RouteRecordRaw> = [
               belong:"playlistdetail",
               text:"收藏"
             },
-            component:() => import('../components/FoundRecommendation.vue')
+            component:() => import('../components/PlayListCollection.vue')
           },
         ]
       },

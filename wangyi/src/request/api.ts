@@ -207,3 +207,23 @@ export function getAllSongs(id:number,limit?:number,offset?:number){
         }
     })
 }
+export function getSongUrl(id:number){
+    return service({
+        url:"/song/url",
+        method:"get",
+        withCredentials: true,
+        params:{
+            id,
+        }
+    })
+}
+export function getSongDetail(ids:number){
+    return service({
+        url:"/song/detail",
+        method:"get",
+        withCredentials: true,
+        params:{
+            ids,
+        }
+    })
+}

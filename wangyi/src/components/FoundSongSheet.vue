@@ -56,8 +56,8 @@
         <div class="list-detail-box">
             <ul class="list-detail">
                 <li class="list-detail-item" v-for="item, index in playListData.list" :key="item.id">
-                    <img :src="item.coverImgUrl" alt="">
-                    <p>{{ item.name }}</p>
+                    <img @click="intoPlayListDetail(item)" :src="item.coverImgUrl" alt="">
+                    <p @click="intoPlayListDetail(item)">{{ item.name }}</p>
                     <div class="play-time-box">
                         <span class="play-time">{{ playCountFormat(item.playCount) }}</span>
                         <div class="play"></div>
@@ -73,12 +73,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, onMounted, } from 'vue';
 import { getCategoryList, getHotPlayList, getPlayList, getHighqualityTags, getHighqualityPlayList } from '../request/api'
 import { CategoryPlayList, CategoryTagExpand, Sub } from '../type/categoryplaylist'
 import { HotPlayList } from '../type/hotplaylist'
-import { PlayList } from '../type/palylist'
+import { PlayList, PlayListType } from '../type/palylist'
 import { HighqualityTags, HighQualityPlayList } from '../type/boutique'
+import { useRouter } from 'vue-router';
+const router = useRouter()
+
 onMounted(() => {
     getHighQualityTagsData()
     getCategoryListData()
@@ -223,6 +226,17 @@ const updatePlayListData = (cat?: string) => {
         playListData.list = res.data.playlists
     })
 }
+
+
+const intoPlayListDetail = (item: PlayListType) => {
+    router.push({
+        name: 'playlistdetail',
+        query: {
+            id: item.id
+        }
+    })
+}
+
 //播放量数据格式化
 const playCountFormat = (number: number) => {
     if (number > 100000000) {
@@ -514,12 +528,14 @@ li {
 }
 
 .list-detail-item img {
+    cursor: pointer;
     width: 170px;
     height: 170px;
     border-radius: 5px;
 }
 
 .list-detail-item p {
+    cursor: pointer;
     text-overflow: -o-ellipsis-lastline;
     overflow: hidden;
     text-overflow: ellipsis;

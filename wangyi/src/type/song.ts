@@ -146,3 +146,138 @@ export class SongList {
     songList:Song[] = []
     privilegesList:Privilege[]=[]
 }
+
+export class SongInit {
+	data:Song = {
+		name: '长生诀',
+		id: 462391069,
+		pst: 0,
+		t: 0,
+		ar: [
+			{
+				id: 1115075,
+				name: '西瓜JUN',
+				tns: [],
+				alias: []
+			}
+		],
+		alia: [],
+		pop: 100,
+		st: 0,
+		rt: null,
+		fee: 8,
+		v: 23,
+		crbt: null,
+		cf: '',
+		al: {
+			id: 35221766,
+			name: '长生诀',
+			picUrl: 'https://p2.music.126.net/ZUev7OhmNBD1gmuW1km7ew==/109951162867290084.jpg',
+			tns: [],
+			pic: 109951162867290080
+		},
+		dt: 191738,
+		h: {
+			br: 320000,
+			fid: 0,
+			size: 7671685,
+			vd: -74516,
+			sr: 44100
+		},
+		m: {
+			br: 192000,
+			fid: 0,
+			size: 4603028,
+			vd: -74516,
+			sr: 44100
+		},
+		l: {
+			br: 128000,
+			fid: 0,
+			size: 3068700,
+			vd: -74516,
+			sr: 44100
+		},
+		sq: {
+			br: 942377,
+			fid: 0,
+			size: 22586280,
+			vd: -74516,
+			sr: 44100
+		},
+		hr: null,
+		a: null,
+		cd: '01',
+		no: 1,
+		rtUrl: null,
+		ftype: 0,
+		rtUrls: [],
+		djId: 0,
+		copyright: 0,
+		s_id: 0,
+		mark: 0,
+		originCoverType: 1,
+		originSongSimpleData: null,
+		tagPicList: null,
+		resourceState: true,
+		version: 23,
+		songJumpInfo: null,
+		entertainmentTags: null,
+		awardTags: null,
+		single: 0,
+		noCopyrightRcmd: null,
+		mst: 9,
+		cp: 0,
+		mv: 0,
+		rtype: 0,
+		rurl: null,
+		publishTime: 1471449600000,
+		tns:[]
+	}
+}
+
+export interface FreeTrialPrivilege {
+	resConsumable: boolean;
+	userConsumable: boolean;
+	listenType?: any;
+	cannotListenReason?: any;
+}
+
+export interface FreeTimeTrialPrivilege {
+	resConsumable: boolean;
+	userConsumable: boolean;
+	type: number;
+	remainTime: number;
+}
+
+export interface SongUrlType {
+	id: number;
+	url: string;
+	br: number;
+	size: number;
+	md5: string;
+	code: number;
+	expi: number;
+	type: string;
+	gain: number;
+	peak: number;
+	fee: number;
+	uf?: any;
+	payed: number;
+	flag: number;
+	canExtend: boolean;
+	freeTrialInfo?: any;
+	level: string;
+	encodeType: string;
+	freeTrialPrivilege: FreeTrialPrivilege;
+	freeTimeTrialPrivilege: FreeTimeTrialPrivilege;
+	urlSource: number;
+	rightSource: number;
+	podcastCtrp?: any;
+	effectTypes?: any;
+	time: number;
+}
+export class SongUrlData{
+	list:SongUrlType[]=[]
+}
+

@@ -311,7 +311,7 @@ export class PlayListDetail {
 			coverImgId_str: ',',
 			adType: 1,
 			userId: 1,
-			createTime: 1,
+			createTime: 1407747901072,
 			status: 1,
 			opRecommend: false,
 			highQuality: false,
