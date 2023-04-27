@@ -9,7 +9,7 @@
     <div class="list" v-for="item, index in songListData.songList" @mouseenter="enterListItem(index)"
         @mouseleave="leaveListItem()" @click="clickListItem(index), intoSongDetail(item)"
         :class="[{ isActive: isActive(index) }, { isHover: isHover(index) }]">
-        <div class="operation" style="margin-left: 16px;color: darkgray;width: 13%;"><span>{{ indexFormat(index) }}</span>
+        <div class="operation" style="margin-left: 16px;color: darkgray;width: 13%;"><span>{{ indexFormat(index+1) }}</span>
         </div>
         <div class="title">
             <p>{{ item.name }}</p>
