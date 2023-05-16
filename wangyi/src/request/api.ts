@@ -227,3 +227,13 @@ export function getSongDetail(ids:number){
         }
     })
 }
+export function getLyric(id:number){
+    return service({
+        url:"/lyric",
+        method:"get",
+        withCredentials: true,
+        params:{
+            id,
+        }
+    })
+}

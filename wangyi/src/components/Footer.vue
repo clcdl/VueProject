@@ -1,7 +1,10 @@
 <template>
+    <div class="song-detail">
+        <SongDetail ref="songDetail" v-bind:currentSong = "currentSong" :currentTime = "currentTimeForLyric"></SongDetail>
+    </div>
     <div class="footer">
         <div class="foot-left">
-            <img class="img" :src="data.al.picUrl" alt="">
+            <img @click="upSongDetail()" class="img" :src="data.al.picUrl" alt="">
             <div class="songNameAndSinger">
                 <span class="song-name">{{ data.name }}<i class="iconfont icon-aixin"></i></span>
                 <span class="singer">{{ arFormat(data.ar) }}</span>
@@ -14,7 +17,7 @@
                 <li><i class="iconfont icon-lajitong"></i></li>
                 <li><i class="iconfont icon-shangyishoushangyige"></i></li>
                 <li @click="clickPlay()"><i class="iconfont" :class="playStyle"></i>
-                    <audio ref="audio" @canplay="getDuration()" @timeupdate="updateTime()"  loop autoplay id="audio"
+                    <audio ref="audio" @canplay="getDuration()" @timeupdate="updateTime(),timeForPass()" loop autoplay id="audio"
                         :src="songUrl"></audio>
                 </li>
                 <li><i class="iconfont icon-xiayigexiayishou"></i></li>
@@ -44,6 +47,8 @@
 import { ref, reactive, onMounted, inject, toRef, toRefs, onUpdated, onBeforeUpdate } from 'vue';
 import { useRoute } from 'vue-router';
 import { Ar, SongInit, } from '../type/song'
+import SongDetail from './SongDetail.vue';
+
 //dom
 const playbar = ref()
 const play = ref()
@@ -59,13 +64,18 @@ const route = useRoute()
 //data
 const playStyle = ref('icon-bofang')
 const songUrl = inject('songUrl') as string
-const songInit = inject('songInit') as SongInit
-const { data } = toRefs(songInit)
-//console.log(songInit)
+const currentSong = inject('currentSong') as SongInit
+const { data } = toRefs(currentSong)
+//console.log(currentSong)
 onMounted(() => {
     playStyle.value = 'icon-bofang'
 })
 
+//upSongDetail
+const songDetail = ref()
+const upSongDetail = ()=>{
+    songDetail.value.upSongDetail()
+}
 //播放工具栏
 const clickPlay = () => {
     if (audio.value.paused) {
@@ -78,12 +88,14 @@ const clickPlay = () => {
     }
 }
 
-
+//audio
+const currentTimeForLyric = ref(-1)
+//传递当前时间用于获得歌词高亮
+const timeForPass = ()=>{
+    currentTimeForLyric.value = audio.value.currentTime
+}
 //音频播放时触发
 const getDuration = () => {
-    if(audio.value.play){
-        playStyle.value = 'icon-zanting'
-    }
     //获取音频时长
     duraTime.value.innerHTML = timeFormat(audio.value.duration)
 }
@@ -127,12 +139,19 @@ li {
     list-style-type: none;
 }
 
+//song-detail
+.song-detail {
+    position: absolute;
+}
+
+//footer
 .footer {
     display: flex;
     height: 72px;
     border-top: #ececec solid 1.5px;
     font-size: 14px;
     color: #474747;
+    z-index: 999;
 }
 
 .footer .foot-left {
@@ -142,6 +161,7 @@ li {
 }
 
 .foot-left img {
+    cursor: pointer;
     width: 55px;
     margin-left: 15px;
     border-radius: 5px;
@@ -161,6 +181,7 @@ li {
 .songNameAndSinger i {
     margin-left: 10px;
 }
+
 .song-name {
     text-overflow: -o-ellipsis-lastline;
     overflow: hidden;
@@ -170,6 +191,7 @@ li {
     line-clamp: 1;
     -webkit-box-orient: vertical;
 }
+
 .singer {
     text-overflow: -o-ellipsis-lastline;
     overflow: hidden;
@@ -270,5 +292,4 @@ li {
 
 .ft_right .iconfont {
     font-size: 20px;
-}
-</style>
+}</style>

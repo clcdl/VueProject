@@ -37,8 +37,8 @@ onMounted(() => {
 const router = useRouter()
 const route = useRoute()
 //inject
-const songInit = inject('songInit') as SongInit
-const { data } = toRefs(songInit)
+const currentSong = inject('currentSong') as SongInit
+const { data } = toRefs(currentSong)
 const songUrl = inject('songUrl') as any
 //
 const songListData = reactive(new SongList())
@@ -70,7 +70,7 @@ const intoSongDetail = (item: Song) => {
             id: item.id
         }
     }) */
-    songInit.data = item
+    currentSong.data = item
     getSongUrlData()
 }
 const getSongUrlData = () => {

@@ -1,0 +1,271 @@
+<template>
+    <div class="song-detail" :class="{ upSongDetail: isUpSongDetail }">
+        <div class="header">
+            <img class="down" @click="downSongDetail()" src="../assets/down.png" alt="">
+        </div>
+        <div class="main">
+            <div class="record">
+
+            </div>
+            <div class="description-box">
+                <div class="title">
+                    <p>{{ props.currentSong?.data.name }}</p>
+                </div>
+                <div class="author-box">
+                    <p class="author">{{ '歌手:' + arFormat(props.currentSong?.data.ar) }}</p>
+                    <p class="album">{{ '专辑:' + props.currentSong?.data.al.name }}</p>
+                    <p class="from">{{ '来源:' }}</p>
+                </div>
+                <div class="description"></div>
+                    <ul ref="lyric" class="lyric">
+                        <li ref = "lyricItem" class="lyric-item"
+                        v-for="item,index in result.list"
+                        :class="{active:index===activeIndex}"
+                        >{{ item.word }}</li>
+                    </ul>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script setup lang="ts">
+import { onMounted, reactive, ref, Ref } from 'vue';
+import { Ar, SongInit, } from '../type/song'
+import { Lyric,Result } from '../type/lyric'
+import { getLyric } from '../request/api'
+
+onMounted(() => {
+    getLyricData(props.currentSong?.data.id)
+})
+//Lyric and result.list
+const activeIndex = ref(0)
+const lyric = ref()
+const lyricItem = ref()
+const lyricData = reactive(new Lyric())
+const result = reactive(new Result)
+const getLyricData = (id: number | undefined) => {
+    if (id == undefined) {
+        return 'undefined'
+    }
+    else {
+        getLyric(id).then(res => {
+            lyricData.data = res.data.lrc
+            //console.log(lyricData.data)
+            result.list = resolveLyricData(lyricData.data.lyric)
+            //console.log(result.list)
+        })
+    }
+}
+//解析lyric格式拆分为时间与歌词
+const resolveLyricData = (lyric: string) => {
+    const arr = lyric.split('\n')
+    if (arr[arr.length - 1] == "") {
+        arr.pop()
+    }
+     const result = arr.map(item => {
+        const wordArr = item.split(']')
+
+        return {
+            time: parseTime(wordArr[0].substring(1)),
+            word: wordArr[1]
+
+        }
+    })
+    return result
+}
+//根据当前播放时间找到歌词
+const findIndex = (currentTime: number) => {
+    for (let i = 0; i < result.list.length; i++) {
+        if (result.list[i].time > currentTime) {
+            return i - 1
+        }
+    }
+    //没找到说明到达最后一句
+    return result.list.length - 1
+}
+//设置歌词偏移
+const setOffset = ()=>{
+    activeIndex.value = findIndex(props.currentTime)
+    let ulHeight = lyric.value.clientHeight
+    let liHeight = lyric.value.children[0].clientHeight
+    let wholeHeight = lyric.value.children.length * liHeight
+    let maxOffset  = wholeHeight - ulHeight
+    let offset = liHeight + liHeight / 2 - ulHeight / 2
+    //设置最小offSet为0
+    if(offset < 0 ){
+        offset = 0
+    }
+    //设置最大offset
+    if(offset > maxOffset){
+        offset = maxOffset
+    }
+
+}
+//使00:00格式时间转化为秒
+const parseTime = (timeString: string) => {
+    const timeArr = timeString.split(':')
+    return parseInt(timeArr[0]) * 60 + parseInt(timeArr[1])
+}
+//upSongDetail
+const isUpSongDetail = ref(false)
+
+const upSongDetail = () => {
+    isUpSongDetail.value = !isUpSongDetail.value
+}
+const downSongDetail = () => {
+    isUpSongDetail.value = !isUpSongDetail.value
+}
+
+const arFormat = (ar: Ar[] | undefined) => {
+    if (ar == undefined) {
+        return 'undefined'
+    }
+    else {
+        let singer = ''
+        ar.forEach((item, index) => {
+            if (index == 0) {
+                singer = singer + item.name
+            }
+            else {
+                singer = singer + '/' + item.name
+            }
+        })
+        return singer
+    }
+}
+defineExpose({
+    upSongDetail
+})
+const props = defineProps<{
+    currentSong: SongInit
+    currentTime: number
+}>()
+
+</script>
+
+<style lang="less" scoped>
+li {
+    list-style-type: none;
+}
+.song-detail {
+    height: 0px;
+    width: 1022px;
+    background: linear-gradient(to bottom, rgba(240, 240, 240, 1), white);
+    transition: all 1s;
+    z-index: 100;
+}
+
+.upSongDetail {
+    height: calc(670px - 72px);
+    transform: translateY(-598px);
+}
+
+//header
+.header {
+    height: 10%;
+    display: flex;
+    align-items: center;
+}
+
+.down {
+    cursor: pointer;
+    height: 40%;
+    margin-left: 30px;
+}
+
+.main {
+    display: flex;
+    height: 82%;
+}
+
+.record {
+    width: 55%;
+}
+
+.description-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    width: 100%;
+    height: 7%;
+    text-align: start;
+}
+
+.title p {
+    height: 100%;
+    font-size: x-large;
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.author-box {
+    display: flex;
+    height: 5%;
+    width: 100%;
+    text-align: start;
+    color: rgba(149, 149, 149, 0.8);
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.author {
+    width: 24%;
+    height: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.album {
+    width: 24%;
+    height: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.from {
+    width: 24%;
+    height: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+//lyric
+.lyric {
+    flex: 1;
+    width: 80%;
+    overflow-y: scroll;
+}
+.lyric-item {
+    height: 10%;
+    font-size: 14px;
+    text-align: start;
+    color: rgba(149, 149, 149, 0.8);
+}
+.active {
+    font-weight: 700;
+    color: black !important;
+}
+.lyric::-webkit-scrollbar {
+    width: 8px;
+}
+
+.lyric::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgb(224, 224, 224);
+}
+
+.lyric::-webkit-scrollbar-track {
+    border-radius: 0;
+    background: linear-gradient(to bottom, rgba(240, 240, 240, 1), white);
+}
+</style>

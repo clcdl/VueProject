@@ -35,8 +35,6 @@
 <script setup lang="ts">
 import { ref, reactive, computed,onMounted, provide } from 'vue';
 import { useRouter, useRoute, RouteRecordNormalized } from 'vue-router';
-import {SongInit} from '../type/song'
-import Footer from '../components/Footer.vue'
 const router = useRouter()
 const route = useRoute()
 //main-menu
@@ -95,7 +93,6 @@ li {
     width: 1022px;
     height: calc(100% - 60px - 72px);
     display: flex;
-
     &-menu {
         width: 200px;
         border-right: #ececec solid 1.5px;
