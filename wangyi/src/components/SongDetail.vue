@@ -16,12 +16,14 @@
                     <p class="album">{{ '专辑:' + props.currentSong?.data.al.name }}</p>
                     <p class="from">{{ '来源:' }}</p>
                 </div>
-                <div class="description"></div>
+                <div class="lyric-switch"></div>
                     <ul ref="lyric" class="lyric">
+                        <li ref="blank" class="lyric-item blank"></li>
                         <li ref = "lyricItem" class="lyric-item"
                         v-for="item,index in result.list"
                         :class="{active:index===activeIndex}"
-                        >{{ item.word }}</li>
+                        ><p>{{ item.word }}</p></li>
+                        <li class="lyric-item blank"></li>
                     </ul>
             </div>
         </div>
@@ -39,8 +41,10 @@ onMounted(() => {
 })
 //Lyric and result.list
 const activeIndex = ref(0)
+const liMinHeight = ref(0)
 const lyric = ref()
 const lyricItem = ref()
+const blank = ref()
 const lyricData = reactive(new Lyric())
 const result = reactive(new Result)
 const getLyricData = (id: number | undefined) => {
@@ -87,10 +91,13 @@ const findIndex = (currentTime: number) => {
 const setOffset = ()=>{
     activeIndex.value = findIndex(props.currentTime)
     let ulHeight = lyric.value.clientHeight
-    let liHeight = lyric.value.children[0].clientHeight
+    let blankHeight = blank.value.clientHeight
+    let liHeight = lyric.value.children[1].clientHeight
     let wholeHeight = lyric.value.children.length * liHeight
-    let maxOffset  = wholeHeight - ulHeight
-    let offset = liHeight + liHeight / 2 - ulHeight / 2
+    let maxOffset  = wholeHeight - ulHeight +blankHeight
+    liMinHeight.value = liHeight
+    console.log(liMinHeight.value)
+    let offset = liHeight * activeIndex.value + liHeight / 2 - ulHeight / 2 + blankHeight
     //设置最小offSet为0
     if(offset < 0 ){
         offset = 0
@@ -99,7 +106,7 @@ const setOffset = ()=>{
     if(offset > maxOffset){
         offset = maxOffset
     }
-
+    lyric.value.scrollTop = offset
 }
 //使00:00格式时间转化为秒
 const parseTime = (timeString: string) => {
@@ -114,6 +121,11 @@ const upSongDetail = () => {
 }
 const downSongDetail = () => {
     isUpSongDetail.value = !isUpSongDetail.value
+    console.log(props.currentTime)
+    console.log(lyric.value.children[0].clientHeight)
+    console.log(lyric.value.children.length)
+    console.log(lyric.value.clientHeight)
+    console.log(lyric.value.children.length * lyric.value.children[0].clientHeight)
 }
 
 const arFormat = (ar: Ar[] | undefined) => {
@@ -134,7 +146,8 @@ const arFormat = (ar: Ar[] | undefined) => {
     }
 }
 defineExpose({
-    upSongDetail
+    upSongDetail,
+    setOffset
 })
 const props = defineProps<{
     currentSong: SongInit
@@ -239,20 +252,33 @@ li {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.lyric-switch {
+    margin-top: 10px;
+    height: 10%;
+}
 //lyric
 .lyric {
     flex: 1;
-    width: 80%;
+    width: 75%;
     overflow-y: scroll;
+    scroll-behavior: smooth;
 }
 .lyric-item {
-    height: 10%;
     font-size: 14px;
     text-align: start;
     color: rgba(149, 149, 149, 0.8);
+    margin-right: 15px;
+}
+.lyric-item p {
+    min-height: 21px;
+    padding: 10px 0px;
+}
+.blank {
+    min-height: 186.25px;
 }
 .active {
     font-weight: 700;
+    font-size: 16px;
     color: black !important;
 }
 .lyric::-webkit-scrollbar {

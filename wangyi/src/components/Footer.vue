@@ -17,7 +17,7 @@
                 <li><i class="iconfont icon-lajitong"></i></li>
                 <li><i class="iconfont icon-shangyishoushangyige"></i></li>
                 <li @click="clickPlay()"><i class="iconfont" :class="playStyle"></i>
-                    <audio ref="audio" @canplay="getDuration()" @timeupdate="updateTime(),timeForPass()" loop autoplay id="audio"
+                    <audio ref="audio" @canplay="getDuration()" @timeupdate="updateTime(),timeForPass(),setLyricOffset()" loop autoplay id="audio"
                         :src="songUrl"></audio>
                 </li>
                 <li><i class="iconfont icon-xiayigexiayishou"></i></li>
@@ -75,6 +75,9 @@ onMounted(() => {
 const songDetail = ref()
 const upSongDetail = ()=>{
     songDetail.value.upSongDetail()
+}
+const setLyricOffset = ()=>{
+    songDetail.value.setOffset()
 }
 //播放工具栏
 const clickPlay = () => {
