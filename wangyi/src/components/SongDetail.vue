@@ -4,8 +4,12 @@
             <img class="down" @click="downSongDetail()" src="../assets/down.png" alt="">
         </div>
         <div class="main">
+            <img class="needle" :class="[{needleAnimation:props.playStatus},]" src="../assets/needle.png" alt="">
             <div class="record">
-
+                <div class="disc-box ">
+                    <img class="disc discAnimaiton" :class="[{run:props.playStatus},{pause:!props.playStatus}]" src="../assets/disc.png" alt="">
+                    <img class="cover discAnimaiton" :class="[{run:props.playStatus},{pause:!props.playStatus}]" :src="props.currentSong.data.al.picUrl" alt="">
+                </div>
             </div>
             <div class="description-box">
                 <div class="title">
@@ -31,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref, Ref } from 'vue';
+import { onMounted, reactive, ref, Ref, toRef } from 'vue';
 import { Ar, SongInit, } from '../type/song'
 import { Lyric,Result } from '../type/lyric'
 import { getLyric } from '../request/api'
@@ -54,9 +58,7 @@ const getLyricData = (id: number | undefined) => {
     else {
         getLyric(id).then(res => {
             lyricData.data = res.data.lrc
-            //console.log(lyricData.data)
             result.list = resolveLyricData(lyricData.data.lyric)
-            //console.log(result.list)
         })
     }
 }
@@ -96,7 +98,6 @@ const setOffset = ()=>{
     let wholeHeight = lyric.value.children.length * liHeight
     let maxOffset  = wholeHeight - ulHeight +blankHeight
     liMinHeight.value = liHeight
-    console.log(liMinHeight.value)
     let offset = liHeight * activeIndex.value + liHeight / 2 - ulHeight / 2 + blankHeight
     //设置最小offSet为0
     if(offset < 0 ){
@@ -121,11 +122,14 @@ const upSongDetail = () => {
 }
 const downSongDetail = () => {
     isUpSongDetail.value = !isUpSongDetail.value
-    console.log(props.currentTime)
+    console.log(props.isPause)
+    console.log(props.playStatus)
+/*     console.log(props.currentTime)
     console.log(lyric.value.children[0].clientHeight)
     console.log(lyric.value.children.length)
     console.log(lyric.value.clientHeight)
-    console.log(lyric.value.children.length * lyric.value.children[0].clientHeight)
+    console.log(lyric.value.children.length * lyric.value.children[0].clientHeight) */
+
 }
 
 const arFormat = (ar: Ar[] | undefined) => {
@@ -147,13 +151,15 @@ const arFormat = (ar: Ar[] | undefined) => {
 }
 defineExpose({
     upSongDetail,
+    getLyricData,
     setOffset
 })
 const props = defineProps<{
     currentSong: SongInit
     currentTime: number
+    playStatus:boolean
+    isPause:boolean
 }>()
-
 </script>
 
 <style lang="less" scoped>
@@ -164,7 +170,7 @@ li {
     height: 0px;
     width: 1022px;
     background: linear-gradient(to bottom, rgba(240, 240, 240, 1), white);
-    transition: all 1s;
+    transition: all 0.5s;
     z-index: 100;
 }
 
@@ -187,14 +193,67 @@ li {
 }
 
 .main {
+    position: relative;
     display: flex;
     height: 82%;
 }
 
 .record {
     width: 55%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-
+.needle {
+    position: absolute;
+    left: 25%;
+    height: 30%;
+    z-index: 1;
+    transform-origin: left top;
+    transform: rotate(-30deg);
+    transition: all 1s;
+}
+.needleAnimation {
+    transform-origin: left top;
+    transform: rotate(0deg);
+    transition: all 1s;
+}
+.disc-box {
+    width: 60.2%;
+    height: 69%;
+    border-radius: 50%;
+    background-color: rgba(224, 224, 224, 0.9);
+}
+.discAnimaiton{
+    animation: rotate 30s linear infinite;
+}
+@keyframes rotate{
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}
+.pause {
+    animation-play-state: paused;
+}
+.run {
+    animation-play-state: running;
+}
+.disc {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+.cover {
+    position: absolute;
+    top: 28.5%;
+    left: 17.2%;
+    height: 43%;
+    border-radius: 50%;
+}
 .description-box {
     flex: 1;
     display: flex;
@@ -202,12 +261,11 @@ li {
 }
 
 .title {
-    width: 100%;
+    width: 75%;
     height: 7%;
     text-align: start;
 }
-
-.title p {
+.title p{
     height: 100%;
     font-size: x-large;
     text-overflow: -o-ellipsis-lastline;
@@ -218,15 +276,15 @@ li {
     line-clamp: 1;
     -webkit-box-orient: vertical;
 }
-
 .author-box {
     display: flex;
     height: 5%;
-    width: 100%;
+    width: 75%;
     text-align: start;
     color: rgba(149, 149, 149, 0.8);
     font-size: 14px;
     font-weight: 400;
+    gap: 10px;
 }
 
 .author {

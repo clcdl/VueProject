@@ -1,6 +1,6 @@
 <template>
     <div class="song-detail">
-        <SongDetail ref="songDetail" v-bind:currentSong = "currentSong" :currentTime = "currentTimeForLyric"></SongDetail>
+        <SongDetail ref="songDetail" v-bind:currentSong = "currentSong" :currentTime = "currentTimeForLyric" :playStatus = "playStatus" :isPause = "isPause"></SongDetail>
     </div>
     <div class="footer">
         <div class="foot-left">
@@ -17,7 +17,7 @@
                 <li><i class="iconfont icon-lajitong"></i></li>
                 <li><i class="iconfont icon-shangyishoushangyige"></i></li>
                 <li @click="clickPlay()"><i class="iconfont" :class="playStyle"></i>
-                    <audio ref="audio" @canplay="getDuration()" @timeupdate="updateTime(),timeForPass(),setLyricOffset()" loop autoplay id="audio"
+                    <audio ref="audio" @canplay="getDuration()" @timeupdate="updateTime(),timeForPass(),setLyricOffset()" loop id="audio"
                         :src="songUrl"></audio>
                 </li>
                 <li><i class="iconfont icon-xiayigexiayishou"></i></li>
@@ -63,6 +63,8 @@ const route = useRoute()
 
 //data
 const playStyle = ref('icon-bofang')
+const playStatus = ref(false)
+const isPause = ref(true)
 const songUrl = inject('songUrl') as string
 const currentSong = inject('currentSong') as SongInit
 const { data } = toRefs(currentSong)
@@ -75,6 +77,7 @@ onMounted(() => {
 const songDetail = ref()
 const upSongDetail = ()=>{
     songDetail.value.upSongDetail()
+    songDetail.value.getLyricData(data.value.id)
 }
 const setLyricOffset = ()=>{
     songDetail.value.setOffset()
@@ -83,10 +86,14 @@ const setLyricOffset = ()=>{
 const clickPlay = () => {
     if (audio.value.paused) {
         audio.value.play()
+        playStatus.value = true
+        isPause.value = false
         playStyle.value = 'icon-zanting'
     }
     else {
         audio.value.pause()
+        playStatus.value = false
+        isPause.value = true
         playStyle.value = 'icon-bofang'
     }
 }

@@ -64,12 +64,6 @@ const clickListItem = (index: number) => {
     activeIndex.value = index
 }
 const intoSongDetail = (item: Song) => {
-/*     router.push({
-        name: 'FM',
-        query: {
-            id: item.id
-        }
-    }) */
     currentSong.data = item
     getSongUrlData()
 }
