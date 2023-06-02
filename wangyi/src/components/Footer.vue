@@ -173,6 +173,7 @@ li {
 .foot-left img {
     cursor: pointer;
     width: 55px;
+    height: 55px;
     margin-left: 15px;
     border-radius: 5px;
 }

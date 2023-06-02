@@ -237,3 +237,32 @@ export function getLyric(id:number){
         }
     })
 }
+
+//热搜默认关键词
+export function getDefaultKeyWord(){
+    return service({
+        url:"/search/hot",
+        method:"get",
+    })
+}
+//猜你想搜
+export function getAssociate(keyWord:string){
+    return service({
+        url:"/search/suggest",
+        method:"get",
+        params:{
+            keyWord
+        }
+    })
+}
+//搜索
+export function getSearch(keywords:string,limit?:number){
+    return service({
+        url:"/search",
+        method:"get",
+        params:{
+            keywords,
+            limit
+        }
+    })
+}

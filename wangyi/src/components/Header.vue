@@ -11,8 +11,8 @@
                 </div>
             </div>
             <div class="search">
-                <i class="iconfont-header icon-search"></i>
-                <input type="text" placeholder="搜索">
+                <i class="iconfont-header icon-search" @click="search(keywords)"></i>
+                <input v-model="keywords" type="text" :placeholder="placeHolder">
             </div>
             <div class="mic"><i class="iconfont-header icon-mic-on"></i></div>
             <div class="user-bar">
@@ -35,8 +35,14 @@
 </template>
 
 <script setup lang="ts">
+import { ref,reactive,onMounted } from 'vue';
 import { useRouter, useRoute,  } from 'vue-router';
-import { logStatus,logout,noLogging } from '../request/api';
+import { logStatus,getSearch,getAssociate,getDefaultKeyWord } from '../request/api';
+import { HotSearch} from '../type/search'
+onMounted(()=>{
+    getDefaultKeyWordData()
+    console.log(keywords.value)
+})
 const router = useRouter()
 const route = useRoute()
 const logoClick = () => {
@@ -47,6 +53,22 @@ const logoClick = () => {
 
     logStatus().then(res=>{
         console.log(res.data)
+    })
+}
+//搜索框
+const keywords = ref('')
+const placeHolder = ref('default')
+const hotSearchData = reactive(new HotSearch())
+const getDefaultKeyWordData = ()=>{
+    getDefaultKeyWord().then(res=>{
+        hotSearchData.list = res.data.result.hots
+        placeHolder.value = hotSearchData.list[0].first
+    })
+}
+const search = (keywords:string)=>{
+    router.push({
+        name: "/search",
+        query:{keywords:keywords}
     })
 }
 </script>

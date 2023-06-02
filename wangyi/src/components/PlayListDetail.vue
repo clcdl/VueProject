@@ -214,7 +214,7 @@ li {
     background-color: #e20000;
     color: aliceblue;
     font-size: x-large;
-    line-height: 30px;
+    line-height: 28px;
     text-align: center;
 }
 

@@ -7,9 +7,9 @@
         <div class="time"><span>时间</span></div>
     </div>
     <div class="list" v-for="item, index in songListData.songList" @mouseenter="enterListItem(index)"
-        @mouseleave="leaveListItem()" @click="clickListItem(index), intoSongDetail(item)"
+        @mouseleave="leaveListItem()" @click="clickListItem(index)" @dblclick="changeCurrentSong(item),changeSongUrlData(item)"
         :class="[{ isActive: isActive(index) }, { isHover: isHover(index) }]">
-        <div class="operation" style="margin-left: 16px;color: darkgray;width: 13%;"><span>{{ indexFormat(index+1) }}</span>
+        <div class="operation" style="margin-left: 16px;color: darkgray;width: 13%;"><span>{{ indexFormat(index + 1) }}</span>
         </div>
         <div class="title">
             <p>{{ item.name }}</p>
@@ -27,9 +27,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted,inject,toRefs } from 'vue';
-import { getPlayListDetail, getAllSongs,getSongUrl } from '../request/api'
-import { SongList, Ar, Song ,SongInit} from '../type/song'
+import { ref, reactive, onMounted, inject, toRefs, Ref } from 'vue';
+import { getPlayListDetail, getAllSongs, getSongUrl } from '../request/api'
+import { SongList, Ar, Song, SongInit } from '../type/song'
 import { useRoute, useRouter } from 'vue-router';
 onMounted(() => {
     getPlayListDetailData()
@@ -39,7 +39,7 @@ const route = useRoute()
 //inject
 const currentSong = inject('currentSong') as SongInit
 const { data } = toRefs(currentSong)
-const songUrl = inject('songUrl') as any
+const songUrl = inject('songUrl') as Ref<string>
 //
 const songListData = reactive(new SongList())
 const getPlayListDetailData = () => {
@@ -63,12 +63,11 @@ const isHover = (index: number) => {
 const clickListItem = (index: number) => {
     activeIndex.value = index
 }
-const intoSongDetail = (item: Song) => {
+const changeCurrentSong = (item: Song) => {
     currentSong.data = item
-    getSongUrlData()
 }
-const getSongUrlData = () => {
-    getSongUrl(data.value.id).then(res => {
+const changeSongUrlData = (item:Song) => {
+    getSongUrl(item.id).then(res => {
         songUrl.value = res.data.data[0].url
     })
 }

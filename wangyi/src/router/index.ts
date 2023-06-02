@@ -201,8 +201,18 @@ const routes: Array<RouteRecordRaw> = [
           },
         ]
       },
+      {
+        path:"/search",
+        name:"/search",
+        meta:{
+          belong:"search",
+          text:"搜索"
+        },
+        component:() => import('../components/SearchResult.vue')
+      },
     ]
-  }
+  },
+
 ] 
  
 const router = createRouter({
