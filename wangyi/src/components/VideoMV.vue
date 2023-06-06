@@ -281,7 +281,7 @@ li {
 }
 
 .tagActive {
-    color: #e20000 !important;
+    color: #ec4141 !important;
     background-color: rgba(255, 228, 225, 70%);
 }
 

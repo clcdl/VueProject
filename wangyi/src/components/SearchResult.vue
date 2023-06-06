@@ -2,7 +2,7 @@
     <div class="search-description">
         {{ "搜索 " + keywords }}
     </div>
-    <div class="place-holder"></div>
+<!--     <div class="place-holder"></div> -->
     <div class="operation">
         <div class="play-all">
             <div class="play-ico"></div>
@@ -171,7 +171,7 @@ li {
     height: 30px;
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
-    background-color: #e20000;
+    background-color: #ec4141;
     color: aliceblue;
     line-height: 30px;
 }
@@ -195,7 +195,7 @@ li {
     margin-left: 0.1mm;
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
-    background-color: #e20000;
+    background-color: #ec4141;
     color: aliceblue;
     font-size: x-large;
     line-height: 28px;

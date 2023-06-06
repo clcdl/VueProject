@@ -74,7 +74,7 @@ li {
     width: 80%;
     height: 2.5px;
     position: absolute;
-    background-color: #e20000;
+    background-color: #ec4141;
     border-radius: 5px;
     top: 30px;
     left: 5px;

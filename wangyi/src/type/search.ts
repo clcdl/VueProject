@@ -62,3 +62,18 @@ export class Search {
 		songCount:-1
 	}
 }
+
+//hot-search-detail
+export interface HotSearchDetailType {
+	searchWord: string;
+	score: number;
+	content: string;
+	source: number;
+	iconType: number;
+	iconUrl: string;
+	url: string;
+	alg: string;
+}
+export class HotSearchDetail {
+	list:HotSearchDetailType[]=[]
+}

@@ -255,6 +255,13 @@ export function getAssociate(keyWord:string){
         }
     })
 }
+//
+export function getHotSearch(){
+    return service({
+        url:"/search/hot/detail",
+        method:"get",
+    })
+}
 //搜索
 export function getSearch(keywords:string,limit?:number){
     return service({

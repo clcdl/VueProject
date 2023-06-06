@@ -183,7 +183,7 @@ li {
     height: 30px;
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
-    background-color: #e20000;
+    background-color: #ec4141;
     color: aliceblue;
     line-height: 30px;
 }
@@ -211,7 +211,7 @@ li {
     margin-left: 0.1mm;
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
-    background-color: #e20000;
+    background-color: #ec4141;
     color: aliceblue;
     font-size: x-large;
     line-height: 28px;
@@ -304,7 +304,7 @@ li {
     width: 80%;
     height: 3.5px;
     position: absolute;
-    background-color: #e20000;
+    background-color: #ec4141;
     border-radius: 5px;
     top: 30px;
     left: 5px;

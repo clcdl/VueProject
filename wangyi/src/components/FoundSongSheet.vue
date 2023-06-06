@@ -432,16 +432,16 @@ li {
     font-size: 12px;
     font-weight: bold;
     transform: scale(0.7);
-    color: #e20000;
+    color: #ec4141;
 
 }
 
 .tagExpandHover {
-    color: #e20000 !important;
+    color: #ec4141 !important;
 }
 
 .tagExpandactive {
-    color: #e20000 !important;
+    color: #ec4141 !important;
     background-color: rgba(255, 228, 225, 70%) !important;
 }
 
@@ -497,7 +497,7 @@ li {
 }
 
 .active {
-    color: #e20000 !important;
+    color: #ec4141 !important;
     background-color: rgba(255, 228, 225, 70%);
 }
 

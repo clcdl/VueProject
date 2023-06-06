@@ -257,11 +257,11 @@ li {
 }
 
 .AllTagListItemHover {
-    color: #e20000 !important;
+    color: #ec4141 !important;
 }
 
 .AllTagListItemActive {
-    color: #e20000 !important;
+    color: #ec4141 !important;
     background-color: rgba(255, 228, 225, 70%);
 }
 
@@ -341,7 +341,7 @@ li {
 }
 
 .active {
-    color: #e20000 !important;
+    color: #ec4141 !important;
     background-color: rgba(255, 228, 225, 70%);
 }
 

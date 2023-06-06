@@ -73,7 +73,7 @@ const isHover = (index: number) => {
     width: 80%;
     height: 4px;
     border-radius: 5px;
-    background-color: #e20000;
+    background-color: #ec4141;
     top: 30px;
     left: 5px;
 }

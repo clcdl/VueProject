@@ -1,7 +1,7 @@
 <template>
     <div class="index">
-        <Header></Header>
-        <Main></Main>
+        <Header style="z-index: 999;"></Header>
+        <Main style="z-index: 99;"></Main>
         <Footer></Footer>
     </div>
 </template>

@@ -288,7 +288,7 @@ const playCountFormat = (number: number) => {
 }
 
 .buttonActive {
-    background-color: #e20000 !important;
+    background-color: #ec4141 !important;
 }
 
 /* 推荐歌单 */
