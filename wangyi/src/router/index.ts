@@ -210,6 +210,15 @@ const routes: Array<RouteRecordRaw> = [
         },
         component:() => import('../components/SearchResult.vue')
       },
+      {
+        path:"/refresh",
+        name:"/refresh",
+        meta:{
+          belong:"refresh",
+          text:"刷新空白页"
+        },
+        component:() => import('../components/Refresh.vue')
+      }
     ]
   },
 

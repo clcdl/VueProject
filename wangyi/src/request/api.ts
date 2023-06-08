@@ -246,12 +246,12 @@ export function getDefaultKeyWord(){
     })
 }
 //猜你想搜
-export function getAssociate(keyWord:string){
+export function getAssociate(keywords:string){
     return service({
         url:"/search/suggest",
         method:"get",
         params:{
-            keyWord
+            keywords
         }
     })
 }

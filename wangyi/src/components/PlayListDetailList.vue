@@ -142,7 +142,7 @@ li {
 }
 
 .list:nth-child(odd) {
-    background-color: #f6f6f7;
+    background-color: rgb(249, 249, 249);
 }
 
 .list p {
@@ -159,10 +159,10 @@ li {
 }
 
 .isActive {
-    background-color: rgba(221, 221, 221, 0.9) !important;
+    background-color: rgb(235, 235, 235) !important;
 }
 
 .isHover {
-    background-color: rgba(220, 220, 220, 0.6) !important;
+    background-color: rgb(243, 243, 243) !important;
 }
 </style>

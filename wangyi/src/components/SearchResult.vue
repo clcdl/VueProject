@@ -64,7 +64,6 @@ const searchData = reactive(new Search())
 const getSearchResult = () => {
     getSearch(keywords, 30).then(res => {
         searchData.data = res.data.result
-        console.log(searchData.data)
     })
 }
 //
@@ -93,13 +92,10 @@ const changeCurrentSong = (item: Song) => {
     getSongDetail(item.id).then(res=>{
         currentSong.data = res.data.songs[0]
     })
-    console.log(currentSong.data)
-    //console.log(songUrl.value)
 }
 const changeSongUrlData = (item:Song) => {
     getSongUrl(item.id).then(res => {
         songUrl.value = res.data.data[0].url
-        console.log(songUrl.value)
     })
 }
 const indexFormat = (number: number) => {
@@ -277,14 +273,14 @@ li {
 }
 
 .search-list-item:nth-child(odd) {
-    background-color: #f6f6f7;
+    background-color: rgb(249, 249, 249);
 }
 .isActive {
-    background-color: rgba(221, 221, 221, 0.9) !important;
+    background-color: rgb(235, 235, 235) !important;
 }
 
 .isHover {
-    background-color: rgba(220, 220, 220, 0.6) !important;
+    background-color: rgb(243, 243, 243) !important;
 }
 
 </style>

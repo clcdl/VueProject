@@ -77,3 +77,40 @@ export interface HotSearchDetailType {
 export class HotSearchDetail {
 	list:HotSearchDetailType[]=[]
 }
+//association
+export interface Playlist {
+	id: number;
+	name: string;
+	coverImgUrl: string;
+	creator?: any;
+	subscribed: boolean;
+	trackCount: number;
+	userId: number;
+	playCount: number;
+	bookCount: number;
+	specialType: number;
+	officialTags?: any;
+	action?: any;
+	actionType?: any;
+	recommendText?: any;
+	score?: any;
+	description: string;
+	highQuality: boolean;
+}
+
+export interface AssociationType {
+	albums: Album[];
+	artists: Artist[];
+	songs: Song[];
+	playlists: Playlist[];
+	order: string[];
+}
+export class Association {
+	data:AssociationType = {
+		albums:[],
+		artists:[],
+		songs:[],
+		playlists:[],
+		order:[]
+	}
+}
