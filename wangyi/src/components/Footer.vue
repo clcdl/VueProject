@@ -1,6 +1,7 @@
 <template>
     <div class="song-detail">
-        <SongDetail ref="songDetail" v-bind:currentSong = "currentSong" :currentTime = "currentTimeForLyric" :playStatus = "playStatus" :isPause = "isPause"></SongDetail>
+        <SongDetail ref="songDetail" v-bind:currentSong="currentSong" :currentTime="currentTimeForLyric"
+            :playStatus="playStatus" :isPause="isPause"></SongDetail>
     </div>
     <div class="footer">
         <div class="foot-left">
@@ -17,16 +18,20 @@
                 <li><i class="iconfont icon-lajitong"></i></li>
                 <li><i class="iconfont icon-shangyishoushangyige"></i></li>
                 <li @click="clickPlay()"><i class="iconfont" :class="playStyle"></i>
-                    <audio ref="audio" @canplay="getDuration()" @timeupdate="updateTime(),timeForPass(),setLyricOffset()" loop id="audio"
-                        :src="songUrl"></audio>
+                    <audio ref="audio" @canplay="getDuration()" @timeupdate="updateTime(), timeForPass(), setLyricOffset()"
+                        loop id="audio" :src="songUrl"></audio>
                 </li>
                 <li><i class="iconfont icon-xiayigexiayishou"></i></li>
                 <li><i class="iconfont icon-geciweidianji"></i></li>
             </ul>
             <!-- 进度条 -->
-            <div class="progress" ref="progress">
-                <div class="slide" ref="slide"></div>
-                <div class="fill" ref="fill"> </div>
+            <div class="progress-box">
+                <div class="progress" ref="progress" @click="clickProgress($event)" @mouseenter="enterProgress()"
+                    @mouseleave="leaveProgress()" :class="{ hoverProgress: isHoverProgress }"></div>
+                <div class="slide" ref="slide" @mouseenter="enterSlide()" @mouseleave="leaveSlide()"
+                    :class="{ hoverSlide: isHoverProgress }"></div>
+                <div class="fill" ref="fill" @click="clickProgress($event)" @mouseenter="enterFill()" @mouseleave="leaveFill()"
+                    :class="{ hoverFill: isHoverProgress }"> </div>
                 <!--歌曲当前时间与总时间  -->
                 <span ref="currentTime" class="currentTime time">00:00</span>
                 <span ref="duraTime" class="duraTime time">00:00</span>
@@ -75,11 +80,11 @@ onMounted(() => {
 
 //upSongDetail
 const songDetail = ref()
-const upSongDetail = ()=>{
+const upSongDetail = () => {
     songDetail.value.upSongDetail()
     songDetail.value.getLyricData(data.value.id)
 }
-const setLyricOffset = ()=>{
+const setLyricOffset = () => {
     songDetail.value.setOffset()
 }
 //播放工具栏
@@ -101,7 +106,7 @@ const clickPlay = () => {
 //audio
 const currentTimeForLyric = ref(-1)
 //传递当前时间用于获得歌词高亮
-const timeForPass = ()=>{
+const timeForPass = () => {
     currentTimeForLyric.value = audio.value.currentTime
 }
 //音频播放时触发
@@ -130,6 +135,11 @@ const timeFormat = (time: number) => {
     second = second >= 10 ? second : "0" + second;
     return minute + ":" + second;
 }
+//点击进度条
+const clickProgress = (e: MouseEvent) => {
+    let proportion = e.offsetX / progress.value.clientWidth
+    audio.value.currentTime = audio.value.duration * proportion
+}
 const arFormat = (ar: Ar[]) => {
     let singer = ''
     ar.forEach((item, index) => {
@@ -141,6 +151,29 @@ const arFormat = (ar: Ar[]) => {
         }
     })
     return singer
+}
+//鼠标经过进度条
+//progress
+const isHoverProgress = ref(false)
+const enterProgress = () => {
+    isHoverProgress.value = true
+}
+const leaveProgress = () => {
+    isHoverProgress.value = false
+}
+//slide
+const enterSlide = () => {
+    isHoverProgress.value = true
+}
+const leaveSlide = () => {
+    isHoverProgress.value = false
+}
+//fill
+const enterFill = () => {
+    isHoverProgress.value = true
+}
+const leaveFill = () => {
+    isHoverProgress.value = false
 }
 </script>
 
@@ -217,7 +250,6 @@ li {
     display: flex;
     flex: 1;
     flex-direction: column;
-    justify-content: space-evenly;
     align-items: center;
     position: relative;
 }
@@ -228,6 +260,7 @@ li {
     justify-content: space-around;
     align-items: center;
     height: 30px;
+    margin-top: 15px;
 }
 
 .tool-list li {
@@ -242,17 +275,25 @@ li {
     font-size: 30px;
 }
 
-.foot-main .progress {
+.progress-box {
     position: relative;
     width: 65%;
+}
+
+.progress {
     height: 3px;
     border-radius: 5px;
     background-color: rgba(221, 221, 221, 0.9);
+    margin-top: 8px;
 }
 
-.progress .slide {
+.hoverProgress {
+    transform: scaleY(1.5)
+}
+
+.slide {
     position: absolute;
-    top: -1.6px;
+    top: 7px;
     width: 6px;
     height: 6px;
     border-radius: 50%;
@@ -260,11 +301,19 @@ li {
     z-index: 9;
 }
 
-.progress .fill {
+.hoverSlide {
+    transform: scale(1.5)
+}
+
+.fill {
     position: absolute;
-    top: 0;
+    top: 8px;
     height: 3px;
     background-color: #ec4141;
+}
+
+.hoverFill {
+    transform: scaleY(1.5)
 }
 
 .time {
@@ -274,12 +323,12 @@ li {
 }
 
 .foot-main .currentTime {
-    top: -8px;
+    top: 0px;
     left: -37px;
 }
 
 .foot-main .duraTime {
-    top: -8px;
+    top: 0px;
     right: -40px;
 }
 
@@ -303,4 +352,5 @@ li {
 
 .ft_right .iconfont {
     font-size: 20px;
-}</style>
+}
+</style>
