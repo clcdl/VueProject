@@ -18,7 +18,7 @@ import Header from '../components/Header.vue'
 const router = useRouter()
 const route = useRoute()
 
-//get InitData
+//get InitData 123
 const currentSong = reactive(new SongInit())
 const { data } = toRefs(currentSong)
 const songUrl = ref('')
